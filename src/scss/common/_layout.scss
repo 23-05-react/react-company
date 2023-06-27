@@ -5,10 +5,15 @@
 		width: 100%;
 		height: 300px;
 		background: gray;
+		opacity: 0;
+		transition: 1s 0.3s;
 	}
 	> .inner {
 		padding: 100px 10vw;
 		min-height: 600px;
+		opacity: 0;
+		transform: translateY(200px);
+		transition: 1s 0.5s;
 
 		h1 {
 			font: normal 70px/1 'work sans';
@@ -24,5 +29,16 @@
 				margin-bottom: 30px;
 			}
 		}
+	}
+}
+
+//활성화 모션
+.content.on {
+	figure {
+		opacity: 1;
+	}
+	> .inner {
+		opacity: 1;
+		transform: translateY(0px);
 	}
 }
