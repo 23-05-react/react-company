@@ -35,6 +35,7 @@ function App() {
 					<Vids />
 					<Banner />
 				</Route>
+
 				<Route path='/'>
 					{/* 서브전용 라우터에는 sub문자값을 전달 */}
 					<Header type={'sub'} />
