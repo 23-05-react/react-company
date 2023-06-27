@@ -24,7 +24,7 @@ import './scss/style.scss';
 function App() {
 	return (
 		<>
-			{/* Switch는 내부에 중복되는 라우트 경로가 있을때 더 구체적인 라우터를 채택하고 나머지는 무시 */}
+			{/* Switch는 내부에 중복되는 라우트 경로가 있을때 먼저 나오는 라우터를 채택하고 나머지는 무시 */}
 			<Switch>
 				<Route exact path='/'>
 					{/* 메인전용 라우터에는 main문자값을 전달 */}
@@ -35,7 +35,6 @@ function App() {
 					<Vids />
 					<Banner />
 				</Route>
-
 				<Route path='/'>
 					{/* 서브전용 라우터에는 sub문자값을 전달 */}
 					<Header type={'sub'} />
