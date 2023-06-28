@@ -1,7 +1,11 @@
-import { forwardRef, useState } from 'react';
+import { forwardRef, useState, useImperativeHandle } from 'react';
 
 const Modal = forwardRef((props, ref) => {
 	const [Open, setOpen] = useState(false);
+
+	useImperativeHandle(ref, () => {
+		return { open: () => setOpen(true) };
+	});
 
 	return (
 		<>
