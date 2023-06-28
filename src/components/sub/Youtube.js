@@ -1,6 +1,7 @@
 import Layout from '../common/Layout';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
+import Modal from '../common/Modal';
 
 function Youtube() {
 	const [Vids, setVids] = useState([]);
@@ -17,22 +18,26 @@ function Youtube() {
 	}, []);
 
 	return (
-		<Layout name={'Youtube'}>
-			{Vids.map((vid, idx) => {
-				return (
-					<article key={idx}>
-						<h2>{vid.snippet.title.length > 50 ? vid.snippet.title.substr(0, 50) + '...' : vid.snippet.title}</h2>
-						<div className='txt'>
-							<p>{vid.snippet.description.length > 200 ? vid.snippet.description.substr(0, 200) + '...' : vid.snippet.description}</p>
-							<span>{vid.snippet.publishedAt.split('T')[0].split('-').join('.')}</span>
-						</div>
-						<div className='pic'>
-							<img src={vid.snippet.thumbnails.standard.url} alt={vid.snippet.title} />
-						</div>
-					</article>
-				);
-			})}
-		</Layout>
+		<>
+			<Layout name={'Youtube'}>
+				{Vids.map((vid, idx) => {
+					return (
+						<article key={idx}>
+							<h2>{vid.snippet.title.length > 50 ? vid.snippet.title.substr(0, 50) + '...' : vid.snippet.title}</h2>
+							<div className='txt'>
+								<p>{vid.snippet.description.length > 200 ? vid.snippet.description.substr(0, 200) + '...' : vid.snippet.description}</p>
+								<span>{vid.snippet.publishedAt.split('T')[0].split('-').join('.')}</span>
+							</div>
+							<div className='pic'>
+								<img src={vid.snippet.thumbnails.standard.url} alt={vid.snippet.title} />
+							</div>
+						</article>
+					);
+				})}
+			</Layout>
+
+			<Modal />
+		</>
 	);
 }
 
