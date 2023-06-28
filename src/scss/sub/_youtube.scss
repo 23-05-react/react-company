@@ -9,9 +9,23 @@
 
 			h2 {
 				width: 25%;
+				font: bold 28px/1 'work sans';
+				color: #555;
 			}
 			.txt {
 				width: 38%;
+				display: flex;
+				flex-wrap: wrap;
+				align-content: space-between;
+
+				p {
+					font: 14px/1.2 'arial';
+					color: #999;
+				}
+				span {
+					font: 12px/1 'arial';
+					color: orange;
+				}
 			}
 			.pic {
 				width: 35%;
