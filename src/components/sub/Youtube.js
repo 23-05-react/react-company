@@ -38,7 +38,8 @@ function Youtube() {
 			</Layout>
 
 			<Modal ref={modal}>
-				<iframe title={Vids[0].id} src={`https://www.youtube.com/embed/${Vids[0].snippet.resourceId.videoId}`} frameborder='0'></iframe>
+				{/* 첫 렌더링 싸이클에서는 Vids[0]의 객체값 자체가 없으므로 없는 요소의 id값 호출 오류-> 옵셔널체이닝으로 해결 */}
+				<iframe title={Vids[0]?.id} src={`https://www.youtube.com/embed/${Vids[0]?.snippet.resourceId.videoId}`}></iframe>
 			</Modal>
 		</>
 	);
