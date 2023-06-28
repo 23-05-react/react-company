@@ -1,11 +1,21 @@
-const Modal = () => {
+import { forwardRef, useState } from 'react';
+
+const Modal = forwardRef((props, ref) => {
+	const [Open, setOpen] = useState(false);
+
 	return (
-		<aside className='modal'>
-			<div className='con'></div>
-			<span className='close'>close</span>
-		</aside>
+		<>
+			{Open && (
+				<aside className='modal' ref={ref}>
+					<div className='con'></div>
+					<span className='close' onClick={() => setOpen(false)}>
+						close
+					</span>
+				</aside>
+			)}
+		</>
 	);
-};
+});
 
 export default Modal;
 
@@ -16,4 +26,8 @@ export default Modal;
 
   forwardRef
   - 자식 컴포넌트 요소를 호출하는 부모컴포넌트에 역으로 참조해서 전달
+
+  useImperativeHandle
+  - 자식 컴포넌트가 아닌 특정 커스텀 객체를 부모로 전달
+  - forwardRef안쪽에서만 활용가능
 */
