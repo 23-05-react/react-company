@@ -18,6 +18,7 @@ function Btns() {
 			window.removeEventListener('resize', getPos);
 		};
 	}, []);
+
 	return (
 		<ul className='btnNavi' ref={btnRef}>
 			<li></li>
