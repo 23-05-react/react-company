@@ -7,7 +7,6 @@ function Btns({ setScrolled, setPos }) {
 	const [Num, setNum] = useState(0);
 
 	const getPos = () => {
-		console.log('getPos');
 		pos.current = [];
 		const secs = btnRef.current.parentElement.querySelectorAll('.myScroll');
 		for (const sec of secs) pos.current.push(sec.offsetTop);
@@ -16,7 +15,6 @@ function Btns({ setScrolled, setPos }) {
 	};
 
 	const activation = () => {
-		console.log('activation');
 		const base = -window.innerHeight / 2;
 		const scroll = window.scrollY;
 		const btns = btnRef.current.children;
@@ -48,7 +46,7 @@ function Btns({ setScrolled, setPos }) {
 	}, []);
 	/*
 		eslint가 의존성 배열에 activation, getPos함수를 등록하라고 권고문구를 띄우는 이유
-		- useEffect내부에서 getPos, activation이라는 외부 함수를 사용하고 있으므로 리액트 입장에서는 해당 변경될 수도 있는 점을 대비해 의존성배열에 등록할 것을 권고
+		- useEffect내부에서 getPos, activation이라는 외부 함수를 사용하고 있으므로 리액트 입장에서는 해당 함수가 변경될 수도 있는 점을 대비해 의존성배열에 등록할 것을 권고
 
 		- 이때 권고사항에 따라 activation, getPos를 의존성배열에 등록하면 해당 컴포넌트가 업데이트 될때마다 해당 함수에서 변경되는 점이 없음에도 불구하고 계속 호출하면서 무한루프에 빠짐
 
