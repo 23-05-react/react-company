@@ -5,6 +5,7 @@ import Footer from './components/common/Footer';
 import Header from './components/common/Header';
 
 //main
+import Main from './components/main/Main';
 
 //sub
 import Community from './components/sub/Community';
@@ -15,7 +16,6 @@ import Member from './components/sub/Member';
 import Youtube from './components/sub/Youtube';
 
 import './scss/style.scss';
-import Main from './components/main/Main';
 
 function App() {
 	return (
