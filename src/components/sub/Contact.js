@@ -1,8 +1,9 @@
 import Layout from '../common/Layout';
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, useState } from 'react';
 
 function Contact() {
 	const container = useRef(null);
+	const [Traffic, setTraffic] = useState(false);
 	const { kakao } = window;
 	const option = {
 		center: new kakao.maps.LatLng(33.450701, 126.570667),
@@ -23,11 +24,14 @@ function Contact() {
 		});
 
 		marker.setMap(mapInstance);
-	}, []);
+
+		Traffic ? mapInstance.addOverlayMapTypeId(kakao.maps.MapTypeId.TRAFFIC) : mapInstance.removeOverlayMapTypeId(kakao.maps.MapTypeId.TRAFFIC);
+	}, [Traffic]);
 
 	return (
 		<Layout name={'Contact'}>
 			<div id='map' ref={container}></div>
+			<button onClick={() => setTraffic(!Traffic)}>{Traffic ? 'Traffic ON' : 'Traffic OFF'}</button>
 		</Layout>
 	);
 }
