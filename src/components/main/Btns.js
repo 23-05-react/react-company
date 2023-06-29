@@ -1,7 +1,7 @@
 import { useRef, useEffect, useState } from 'react';
 import Anime from '../../asset/anime';
 
-function Btns({ setScrolled }) {
+function Btns({ setScrolled, setPos }) {
 	const btnRef = useRef(null);
 	const pos = useRef([]);
 	const [Num, setNum] = useState(0);
@@ -11,6 +11,7 @@ function Btns({ setScrolled }) {
 		const secs = btnRef.current.parentElement.querySelectorAll('.myScroll');
 		for (const sec of secs) pos.current.push(sec.offsetTop);
 		setNum(pos.current.length);
+		setPos(pos.current);
 	};
 
 	const activation = () => {
