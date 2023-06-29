@@ -13,7 +13,13 @@ function Contact() {
 
 	useEffect(() => {
 		//인스턴스 호출구문은 컴포넌트 처음 마운트시 호출
-		new kakao.maps.Map(container.current, option);
+		const mapInstance = new kakao.maps.Map(container.current, option);
+
+		const marker = new kakao.maps.Marker({
+			position: option.center,
+		});
+
+		marker.setMap(mapInstance);
 	}, []);
 
 	return (
