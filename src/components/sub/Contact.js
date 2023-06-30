@@ -41,6 +41,7 @@ function Contact() {
 	const marker = new kakao.maps.Marker({ position: option.center, image: markerImage });
 
 	useEffect(() => {
+		container.current.innerHTML = '';
 		const mapInstance = new kakao.maps.Map(container.current, option);
 		marker.setMap(mapInstance);
 		//지도인스턴스에 타입, 줌 컨트롤 추가
