@@ -1,14 +1,14 @@
 import Layout from '../common/Layout';
 import { useRef, useEffect, useState } from 'react';
+import emailjs from '@emailjs/browser';
 
 function Contact() {
 	const container = useRef(null);
+	const form = useRef(null);
 	const [Traffic, setTraffic] = useState(false);
 	const [Location, setLocation] = useState(null);
 	const [Index, setIndex] = useState(0);
-	console.log(Index);
 
-	//아래 정보값들은 useEffect구문에서 인스턴스 생성할때만 필요한 정보값에 불과하므로 미리 읽히도록 useEffect바깥에 배치
 	const { kakao } = window;
 	const info = [
 		{
@@ -40,19 +40,29 @@ function Contact() {
 	const markerImage = new kakao.maps.MarkerImage(imgSrc, imgSize, imgPos);
 	const marker = new kakao.maps.Marker({ position: option.center, image: markerImage });
 
+	//폼메일 전송 함수
+	const sendEmail = (e) => {
+		e.preventDefault();
+
+		emailjs.sendForm('service_4wnjvjd', 'template_651z7ig', form.current, '23g8RepczesqKPoIX').then(
+			(result) => {
+				console.log(result.text);
+			},
+			(error) => {
+				console.log(error.text);
+			}
+		);
+	};
+
 	useEffect(() => {
 		container.current.innerHTML = '';
 		const mapInstance = new kakao.maps.Map(container.current, option);
 		marker.setMap(mapInstance);
-		//지도인스턴스에 타입, 줌 컨트롤 추가
 		mapInstance.addControl(new kakao.maps.MapTypeControl(), kakao.maps.ControlPosition.TOPRIGHT);
 		mapInstance.addControl(new kakao.maps.ZoomControl(), kakao.maps.ControlPosition.RIGHT);
 		setLocation(mapInstance);
 
 		const setCenter = () => {
-			console.log('setCenter');
-			//setCetner가 호출시 내부적으로 Index state값에 의존하고 있기 떄문에
-			//useEffect안쪽에서 setCenter함수를 정의하고 호출
 			mapInstance.setCenter(info[Index].latlng);
 		};
 
@@ -71,7 +81,6 @@ function Contact() {
 			<div id='map' ref={container}></div>
 			<button onClick={() => setTraffic(!Traffic)}>{Traffic ? 'Traffic ON' : 'Traffic OFF'}</button>
 
-			{/* 배열정보값을 토대로 동적으로 li지점버튼 생성하고 해당 버튼 클릭할때 순서값 State를 변경하면서 지도화면이 갱신되도록 수정 */}
 			<ul className='branch'>
 				{info.map((el, idx) => {
 					return (
@@ -81,6 +90,18 @@ function Contact() {
 					);
 				})}
 			</ul>
+
+			<div id='formBox'>
+				<form ref={form} onSubmit={sendEmail}>
+					<label>Name</label>
+					<input type='text' name='name' />
+					<label>Email</label>
+					<input type='email' name='email' />
+					<label>Message</label>
+					<textarea name='message' />
+					<input type='submit' value='Send' />
+				</form>
+			</div>
 		</Layout>
 	);
 }
