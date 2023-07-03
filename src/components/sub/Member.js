@@ -9,6 +9,7 @@ function Member() {
 		email: '',
 		gender: false,
 		interests: false,
+		edu: '',
 	};
 
 	const [Val, setVal] = useState(initVal);
@@ -35,6 +36,21 @@ function Member() {
 		//모든 체크박스를 반복돌면서 하나라도 체크되어 있는게 있으면 true값 반환
 		inputs.forEach((el) => el.checked && (isChecked = true));
 		setVal({ ...Val, [name]: isChecked });
+	};
+
+	const handleSelect = (e) => {
+		const { name, value } = e.target;
+		setVal({ ...Val, [name]: value });
+	};
+
+	const handleSubmit = (e) => {
+		e.preventDefault();
+		console.log('현재 스테이트값', Val);
+		//check가 반환하는 인증 메세지가 있으면 해당 메세지를 화면에 출력하고 전송중지
+		//그렇지 않으면 인증 성공
+		console.log(check(Val));
+		setErr(check(Val));
+		setSubmit(true);
 	};
 
 	const check = (value) => {
@@ -64,17 +80,10 @@ function Member() {
 		if (!value.interests) {
 			errs.interests = '관심사를 하나 이상 체크하세요.';
 		}
+		if (value.edu === '') {
+			errs.edu = '최종학력을 선택하세요.';
+		}
 		return errs;
-	};
-
-	const handleSubmit = (e) => {
-		e.preventDefault();
-		console.log('현재 스테이트값', Val);
-		//check가 반환하는 인증 메세지가 있으면 해당 메세지를 화면에 출력하고 전송중지
-		//그렇지 않으면 인증 성공
-		console.log(check(Val));
-		setErr(check(Val));
-		setSubmit(true);
 	};
 
 	useEffect(() => {
@@ -150,7 +159,7 @@ function Member() {
 								</td>
 							</tr>
 
-							{/* e mail */}
+							{/* e-mail */}
 							<tr>
 								<th>
 									<label htmlFor='email'>E-MAIL</label>
@@ -197,6 +206,23 @@ function Member() {
 									<input type='checkbox' name='interests' value='game' id='game' onChange={handleCheck} />
 									<br />
 									{Err.interests && <p>{Err.interests}</p>}
+								</td>
+							</tr>
+
+							{/* education */}
+							<tr>
+								<th>
+									<label htmlFor='edu'>EDUCATION</label>
+								</th>
+								<td>
+									<select name='edu' id='edu' onChange={handleSelect}>
+										<option value=''>최종학력을 선택하세요</option>
+										<option value='elementary-school'>초등학교 졸업</option>
+										<option value='middle-school'>중학교 졸업</option>
+										<option value='high-school'>고등학교 졸업</option>
+										<option value='college'>대학교 졸업</option>
+									</select>
+									{Err.edu && <p>{Err.edu}</p>}
 								</td>
 							</tr>
 
