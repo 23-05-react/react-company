@@ -93,7 +93,7 @@ function Member() {
 										onChange={handleChange}
 									/>
 									<br />
-									<p>{Err.userid}</p>
+									{Err.userid && <p>{Err.userid}</p>}
 								</td>
 							</tr>
 
@@ -111,7 +111,7 @@ function Member() {
 										onChange={handleChange}
 									/>
 									<br />
-									<p>{Err.pwd1}</p>
+									{Err.pwd1 && <p>{Err.pwd1}</p>}
 								</td>
 							</tr>
 
@@ -129,7 +129,7 @@ function Member() {
 										onChange={handleChange}
 									/>
 									<br />
-									<p>{Err.pwd2}</p>
+									{Err.pwd2 && <p>{Err.pwd2}</p>}
 								</td>
 							</tr>
 
@@ -147,7 +147,7 @@ function Member() {
 										onChange={handleChange}
 									/>
 									<br />
-									<p>{Err.email}</p>
+									{Err.email && <p>{Err.email}</p>}
 								</td>
 							</tr>
 
@@ -161,7 +161,7 @@ function Member() {
 									<label htmlFor='female'>FeMale</label>
 									<input type='radio' name='gender' value='female' id='female' onChange={handleRadio} />
 									<br />
-									<p>{Err.gender}</p>
+									{Err.gender && <p>{Err.gender}</p>}
 								</td>
 							</tr>
 
