@@ -8,6 +8,7 @@ function Member() {
 		pwd2: '',
 		email: '',
 		gender: false,
+		interests: false,
 	};
 
 	const [Val, setVal] = useState(initVal);
@@ -24,6 +25,16 @@ function Member() {
 	const handleRadio = (e) => {
 		const { name, checked } = e.target;
 		setVal({ ...Val, [name]: checked });
+	};
+
+	const handleCheck = (e) => {
+		const { name } = e.target;
+		let isChecked = false;
+		const inputs = e.target.parentElement.querySelectorAll('input');
+
+		//모든 체크박스를 반복돌면서 하나라도 체크되어 있는게 있으면 true값 반환
+		inputs.forEach((el) => el.checked && (isChecked = true));
+		setVal({ ...Val, [name]: isChecked });
 	};
 
 	const check = (value) => {
@@ -49,6 +60,9 @@ function Member() {
 		}
 		if (!value.gender) {
 			errs.gender = '성별을 체크해주세요.';
+		}
+		if (!value.interests) {
+			errs.interests = '관심사를 하나 이상 체크하세요.';
 		}
 		return errs;
 	};
@@ -162,6 +176,23 @@ function Member() {
 									<input type='radio' name='gender' value='female' id='female' onChange={handleRadio} />
 									<br />
 									{Err.gender && <p>{Err.gender}</p>}
+								</td>
+							</tr>
+
+							{/* interest */}
+							<tr>
+								<th>INTERESTS</th>
+								<td>
+									<label htmlFor='music'>Music</label>
+									<input type='checkbox' name='interests' value='music' id='music' onChange={handleCheck} />
+
+									<label htmlFor='reading'>Reading</label>
+									<input type='checkbox' name='interests' value='reading' id='reading' onChange={handleCheck} />
+
+									<label htmlFor='game'>Game</label>
+									<input type='checkbox' name='interests' value='game' id='game' onChange={handleCheck} />
+									<br />
+									{Err.interests && <p>{Err.interests}</p>}
 								</td>
 							</tr>
 
