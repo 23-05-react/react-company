@@ -203,7 +203,7 @@ function Member() {
 							{/* btn set */}
 							<tr>
 								<th colSpan='2'>
-									<input type='reset' value='CANCEL' />
+									<input type='reset' value='CANCEL' onClick={() => setVal(initVal)} />
 									<input type='submit' value='SEND' />
 								</th>
 							</tr>
