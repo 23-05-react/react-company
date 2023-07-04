@@ -25,6 +25,15 @@ function Community() {
 		setPosts(Posts.filter((_, idx) => idx !== delIndex));
 	};
 
+	const enableUpdate = (editIndex) => {
+		setPosts(
+			Posts.map((post, postIndex) => {
+				if (editIndex === postIndex) post.enableUpdate = true;
+				return post;
+			})
+		);
+	};
+
 	useEffect(() => {
 		console.log(Posts);
 	}, [Posts]);
@@ -53,7 +62,7 @@ function Community() {
 							</div>
 
 							<nav className='btnSet'>
-								<button>EDIT</button>
+								<button onClick={() => enableUpdate(idx)}>EDIT</button>
 								<button onClick={() => deletePost(idx)}>DELETE</button>
 							</nav>
 						</article>
