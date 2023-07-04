@@ -34,6 +34,15 @@ function Community() {
 		);
 	};
 
+	const disableUpdate = (editIndex) => {
+		setPosts(
+			Posts.map((post, postIndex) => {
+				if (editIndex === postIndex) post.enableUpdate = false;
+				return post;
+			})
+		);
+	};
+
 	useEffect(() => {
 		console.log(Posts);
 	}, [Posts]);
@@ -68,7 +77,7 @@ function Community() {
 									</div>
 
 									<nav className='btnSet'>
-										<button>CANCEL</button>
+										<button onClick={() => disableUpdate(idx)}>CANCEL</button>
 										<button>UPDATE</button>
 									</nav>
 								</>
