@@ -4,6 +4,8 @@ import { useRef, useState, useEffect } from 'react';
 function Community() {
 	const input = useRef(null);
 	const textarea = useRef(null);
+	const editInput = useRef(null);
+	const editTextarea = useRef(null);
 	const [Posts, setPosts] = useState([]);
 	const [Allowed, setAllowed] = useState(true);
 
@@ -50,6 +52,23 @@ function Community() {
 		setAllowed(true);
 	};
 
+	const updatePost = (editIndex) => {
+		if (!editInput.current.value.trim() || !editTextarea.current.value.trim()) {
+			return alert('수정할 제목과 본문을 모두 입력하세요.');
+		}
+
+		setPosts(
+			Posts.map((post, postIndex) => {
+				if (postIndex === editIndex) {
+					post.title = editInput.current.value;
+					post.content = editTextarea.current.value;
+					post.enableUpdate = false;
+				}
+				return post;
+			})
+		);
+	};
+
 	useEffect(() => {
 		console.log(Posts);
 	}, [Posts]);
@@ -78,14 +97,14 @@ function Community() {
 									<div className='txt'>
 										{/* onChange이벤트로 제어하지 않는 input요소의 value값은 defaultValue속성으로 지정 */}
 										{/* value: 리액트의 상태값에 관리되는 폼요소, defaultValue: 일반 돔에의해 관리되는 폼요소 */}
-										<input type='text' defaultValue={post.title} />
+										<input type='text' defaultValue={post.title} ref={editInput} />
 										<br />
-										<textarea cols='30' rows='3' defaultValue={post.content}></textarea>
+										<textarea cols='30' rows='3' defaultValue={post.content} ref={editTextarea}></textarea>
 									</div>
 
 									<nav className='btnSet'>
 										<button onClick={() => disableUpdate(idx)}>CANCEL</button>
-										<button>UPDATE</button>
+										<button onClick={() => updatePost(idx)}>UPDATE</button>
 									</nav>
 								</>
 							) : (
