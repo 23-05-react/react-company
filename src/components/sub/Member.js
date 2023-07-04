@@ -31,6 +31,7 @@ function Member() {
 
 	const handleRadio = (e) => {
 		const { name, checked } = e.target;
+		console.log(e.target.value);
 		setVal({ ...Val, [name]: checked });
 	};
 
@@ -207,10 +208,10 @@ function Member() {
 								<th>GENDER</th>
 								<td ref={radioGroup}>
 									<label htmlFor='male'>Male</label>
-									<input type='radio' name='gender' defaultValue='male' id='mail' onChange={handleRadio} />
+									<input type='radio' name='gender' value='male' id='mail' onChange={handleRadio} />
 
 									<label htmlFor='female'>FeMale</label>
-									<input type='radio' name='gender' defaultValue='female' id='female' onChange={handleRadio} />
+									<input type='radio' name='gender' value='female' id='female' onChange={handleRadio} />
 									<br />
 									{Err.gender && <p>{Err.gender}</p>}
 								</td>
@@ -221,13 +222,13 @@ function Member() {
 								<th>INTERESTS</th>
 								<td ref={checkGroup}>
 									<label htmlFor='music'>Music</label>
-									<input type='checkbox' name='interests' defaultValue='music' id='music' onChange={handleCheck} />
+									<input type='checkbox' name='interests' value='music' id='music' onChange={handleCheck} />
 
 									<label htmlFor='reading'>Reading</label>
-									<input type='checkbox' name='interests' defaultValue='reading' id='reading' onChange={handleCheck} />
+									<input type='checkbox' name='interests' value='reading' id='reading' onChange={handleCheck} />
 
 									<label htmlFor='game'>Game</label>
-									<input type='checkbox' name='interests' defaultValue='game' id='game' onChange={handleCheck} />
+									<input type='checkbox' name='interests' value='game' id='game' onChange={handleCheck} />
 									<br />
 									{Err.interests && <p>{Err.interests}</p>}
 								</td>
@@ -240,11 +241,11 @@ function Member() {
 								</th>
 								<td>
 									<select name='edu' id='edu' onChange={handleSelect} ref={selectEl}>
-										<option defaultValue=''>최종학력을 선택하세요</option>
-										<option defaultValue='elementary-school'>초등학교 졸업</option>
-										<option defaultValue='middle-school'>중학교 졸업</option>
-										<option defaultValue='high-school'>고등학교 졸업</option>
-										<option defaultValue='college'>대학교 졸업</option>
+										<option value=''>최종학력을 선택하세요</option>
+										<option value='elementary-school'>초등학교 졸업</option>
+										<option value='middle-school'>중학교 졸업</option>
+										<option value='high-school'>고등학교 졸업</option>
+										<option value='college'>대학교 졸업</option>
 									</select>
 									{Err.edu && <p>{Err.edu}</p>}
 								</td>
