@@ -59,7 +59,18 @@ function Community() {
 							{post.enableUpdate ? (
 								//수정모드
 								<>
-									<p>수정모드</p>
+									<div className='txt'>
+										{/* onChange이벤트로 제어하지 않는 input요소의 value값은 defaultValue속성으로 지정 */}
+										{/* value: 리액트의 상태값에 관리되는 폼요소, defaultValue: 일반 돔에의해 관리되는 폼요소 */}
+										<input type='text' defaultValue={post.title} />
+										<br />
+										<textarea cols='30' rows='3' defaultValue={post.content}></textarea>
+									</div>
+
+									<nav className='btnSet'>
+										<button>CANCEL</button>
+										<button>UPDATE</button>
+									</nav>
 								</>
 							) : (
 								//출력모드
