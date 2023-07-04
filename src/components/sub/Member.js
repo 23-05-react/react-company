@@ -207,10 +207,10 @@ function Member() {
 								<th>GENDER</th>
 								<td ref={radioGroup}>
 									<label htmlFor='male'>Male</label>
-									<input type='radio' name='gender' value='male' id='mail' onChange={handleRadio} />
+									<input type='radio' name='gender' defaultValue='male' id='mail' onChange={handleRadio} />
 
 									<label htmlFor='female'>FeMale</label>
-									<input type='radio' name='gender' value='female' id='female' onChange={handleRadio} />
+									<input type='radio' name='gender' defaultValue='female' id='female' onChange={handleRadio} />
 									<br />
 									{Err.gender && <p>{Err.gender}</p>}
 								</td>
@@ -221,13 +221,13 @@ function Member() {
 								<th>INTERESTS</th>
 								<td ref={checkGroup}>
 									<label htmlFor='music'>Music</label>
-									<input type='checkbox' name='interests' value='music' id='music' onChange={handleCheck} />
+									<input type='checkbox' name='interests' defaultValue='music' id='music' onChange={handleCheck} />
 
 									<label htmlFor='reading'>Reading</label>
-									<input type='checkbox' name='interests' value='reading' id='reading' onChange={handleCheck} />
+									<input type='checkbox' name='interests' defaultValue='reading' id='reading' onChange={handleCheck} />
 
 									<label htmlFor='game'>Game</label>
-									<input type='checkbox' name='interests' value='game' id='game' onChange={handleCheck} />
+									<input type='checkbox' name='interests' defaultValue='game' id='game' onChange={handleCheck} />
 									<br />
 									{Err.interests && <p>{Err.interests}</p>}
 								</td>
