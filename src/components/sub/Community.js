@@ -20,6 +20,10 @@ function Community() {
 		resetForm();
 	};
 
+	const deletePost = (delIndex) => {
+		setPosts(Posts.filter((_, idx) => idx !== delIndex));
+	};
+
 	useEffect(() => {
 		console.log(Posts);
 	}, [Posts]);
@@ -45,7 +49,7 @@ function Community() {
 
 							<nav className='btnSet'>
 								<button>EDIT</button>
-								<button>DELETE</button>
+								<button onClick={() => deletePost(idx)}>DELETE</button>
 							</nav>
 						</article>
 					);
