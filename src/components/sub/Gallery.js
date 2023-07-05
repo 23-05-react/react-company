@@ -12,7 +12,7 @@ function Gallery() {
 		const method_interest = 'flickr.interestingness.getList';
 		const method_user = 'flickr.people.getPhotos';
 		const method_search = 'flickr.photos.search';
-		const num = 20;
+		const num = 500;
 		//const myId = '164021883@N04';
 		let url = '';
 
@@ -44,6 +44,14 @@ function Gallery() {
 										/>
 									</div>
 									<h2>{item.title}</h2>
+									<div className='profile'>
+										<img
+											src={`http://farm${item.farm}.staticflickr.com/${item.server}/buddyicons/${item.owner}.jpg`}
+											alt={item.owner}
+											onError={(e) => e.target.setAttribute('src', 'https://www.flickr.com/images/buddyicon.gif')}
+										/>
+										<span>{item.owner}</span>
+									</div>
 								</div>
 							</article>
 						);
