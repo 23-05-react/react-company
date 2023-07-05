@@ -2,11 +2,21 @@ import Layout from '../common/Layout';
 import { useRef, useState, useEffect } from 'react';
 
 function Community() {
+	//로컬저장소의 데이터를 반환하는 함수정의
+	//저장소에 값이 있으면 해당 값을 다시 JSON형태로 변경해서 반환
+	//값이 없으면 빈 배열을 반환
+	const getLocalData = () => {
+		const data = localStorage.getItem('post');
+		if (data) return JSON.parse(data);
+		else return [];
+	};
+
 	const input = useRef(null);
 	const textarea = useRef(null);
 	const editInput = useRef(null);
 	const editTextarea = useRef(null);
-	const [Posts, setPosts] = useState([]);
+	//getLocalData함수의 리턴값으로 Posts State초기화
+	const [Posts, setPosts] = useState(getLocalData());
 	const [Allowed, setAllowed] = useState(true);
 
 	const resetForm = () => {
@@ -70,6 +80,11 @@ function Community() {
 		setAllowed(true);
 	};
 
+	useEffect(() => {
+		//Posts State값이 변경될때마다가 해당 데이터를 문자화해서 localStorage에 저장
+		localStorage.setItem('post', JSON.stringify(Posts));
+	}, [Posts]);
+
 	return (
 		<Layout name={'Community'}>
 			<div className='inputBox'>
@@ -129,16 +144,10 @@ function Community() {
 export default Community;
 
 /*
-Create - 데이터저장 (게시글 저장)
-Read - 데이터호출 (게시글 보기)
-Upated - 데이터수정 (게시글 수정)
-Delete - 데이터삭제 (게시글 삭제)
-
-localStorage: 모든 브라우저마다 가지고 있는 경량의 데이터 베이스 (문자열 저장)
-
-수정 모드 작업 흐름
-1- 수정 버튼 클릭시 해당 순번의 Posts의 객체에 수정관련 property 추가
-2- map으로 반복처리시 수정관련 property의 유무에 따라 수정모드, 출력모드 구분해서 분기처리 후 렌더링
-3- 출력모드: h2, p로 출력 / 수정모드: input, textarea로 값을 담아서 출력 (수정취소, 수정 버튼 추가)
-4- 수정모드에서 수정버튼 클릭시 State값 변경하고 해당 포스트의 수정관련 property 수정
+	local Storage
+	- 각 브라우저마다 가지고 있는 로컬 저장공간
+	- 문자값만 저장가능 (문자가 아닌 데이터는 강제로 문자화시켜서 저장 JSON)
+	- 5MB저장 가능
+	- localStorage.setItem({key: 'value'}) : 값 저장
+	- localStorage.getItem(key) : 값 불러오기
 */
