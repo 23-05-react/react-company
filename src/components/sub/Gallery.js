@@ -1,4 +1,5 @@
 import Layout from '../common/Layout';
+import Masonry from 'react-masonry-component';
 import axios from 'axios';
 import { useState, useEffect } from 'react';
 
@@ -25,31 +26,29 @@ function Gallery() {
 		setItems(result.data.photos.photo);
 	};
 
-	//미션1 - 아래 호출문으로 풍경이미지 검색되도록 함수 코드 수정
-	//getFlickr({type: 'search', tags: 'landscape'})
-
-	//미션2 - 아래 호출문으로 내 계정의 이미지 갤러리 호출되도록
-	//getFlickr({type: 'user', user: '내아이디'})
-	useEffect(() => getFlickr({ type: 'user', user: '164021883@N04' }), []);
+	//useEffect(() => getFlickr({ type: 'user', user: '164021883@N04' }), []);
+	useEffect(() => getFlickr({ type: 'interest' }), []);
 
 	return (
 		<Layout name={'Gallery'}>
 			<div className='frame'>
-				{Items.map((item, idx) => {
-					return (
-						<article key={idx}>
-							<div className='inner'>
-								<div className='pic'>
-									<img
-										src={`https://live.staticflickr.com/${item.server}/${item.id}_${item.secret}_m.jpg`}
-										alt={item.title}
-									/>
+				<Masonry elementType={'div'} options={{ transitionDuration: '0.5s' }}>
+					{Items.map((item, idx) => {
+						return (
+							<article key={idx}>
+								<div className='inner'>
+									<div className='pic'>
+										<img
+											src={`https://live.staticflickr.com/${item.server}/${item.id}_${item.secret}_m.jpg`}
+											alt={item.title}
+										/>
+									</div>
+									<h2>{item.title}</h2>
 								</div>
-								<h2>{item.title}</h2>
-							</div>
-						</article>
-					);
-				})}
+							</article>
+						);
+					})}
+				</Masonry>
 			</div>
 		</Layout>
 	);
