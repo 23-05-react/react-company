@@ -2,13 +2,19 @@ import Layout from '../common/Layout';
 import { useRef, useState, useEffect } from 'react';
 
 function Community() {
-	//로컬저장소의 데이터를 반환하는 함수정의
-	//저장소에 값이 있으면 해당 값을 다시 JSON형태로 변경해서 반환
-	//값이 없으면 빈 배열을 반환
+	const dummy = [
+		{ title: 'Hello6', content: 'Here comes description in detail.' },
+		{ title: 'Hello5', content: 'Here comes description in detail.' },
+		{ title: 'Hello4', content: 'Here comes description in detail.' },
+		{ title: 'Hello3', content: 'Here comes description in detail.' },
+		{ title: 'Hello2', content: 'Here comes description in detail.' },
+		{ title: 'Hello1', content: 'Here comes description in detail.' },
+	];
+
 	const getLocalData = () => {
 		const data = localStorage.getItem('post');
 		if (data) return JSON.parse(data);
-		else return [];
+		else return dummy;
 	};
 
 	const input = useRef(null);
@@ -148,6 +154,6 @@ export default Community;
 	- 각 브라우저마다 가지고 있는 로컬 저장공간
 	- 문자값만 저장가능 (문자가 아닌 데이터는 강제로 문자화시켜서 저장 JSON)
 	- 5MB저장 가능
-	- localStorage.setItem({key: 'value'}) : 값 저장
+	- localStorage.setItem('key', '저장할 문자값') : 값 저장
 	- localStorage.getItem(key) : 값 불러오기
 */
