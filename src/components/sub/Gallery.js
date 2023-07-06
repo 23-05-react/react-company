@@ -4,6 +4,7 @@ import axios from 'axios';
 import { useState, useEffect, useRef } from 'react';
 
 function Gallery() {
+	const searchInput = useRef(null);
 	const btnSet = useRef(null);
 	const enableEvent = useRef(true);
 	const frame = useRef(null);
@@ -86,6 +87,16 @@ function Gallery() {
 		getFlickr({ type: 'user', user: '164021883@N04' });
 	};
 
+	const showSearch = (e) => {
+		const tag = searchInput.current.value.trim();
+		if (tag === '') return alert('검색어를 입력하세요.');
+		if (!enableEvent.current) return;
+
+		resetGallery(e);
+		getFlickr({ type: 'search', tags: tag });
+		searchInput.current.value = '';
+	};
+
 	useEffect(() => getFlickr({ type: 'user', user: '164021883@N04' }), []);
 
 	return (
@@ -96,6 +107,11 @@ function Gallery() {
 				<button className='on' onClick={showMine}>
 					My Gallery
 				</button>
+			</div>
+
+			<div className='searchBox'>
+				<input type='text' placeholder='검색어를 입력하세요.' ref={searchInput} onKeyPress={(e) => e.key === 'Enter' && showSearch(e)} />
+				<button onClick={showSearch}>Seach</button>
 			</div>
 
 			<div className='frame' ref={frame}>
