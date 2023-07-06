@@ -20,7 +20,7 @@ function Gallery() {
 		const method_interest = 'flickr.interestingness.getList';
 		const method_user = 'flickr.people.getPhotos';
 		const method_search = 'flickr.photos.search';
-		const num = 100;
+		const num = 20;
 		let url = '';
 
 		if (opt.type === 'interest') url = `${baseURL}&api_key=${key}&method=${method_interest}&per_page=${num}`;
@@ -28,6 +28,7 @@ function Gallery() {
 		if (opt.type === 'user') url = `${baseURL}&api_key=${key}&method=${method_user}&per_page=${num}&user_id=${opt.user}`;
 
 		const result = await axios.get(url);
+		console.log(result.data.photos.photo);
 		if (result.data.photos.photo.length === 0) {
 			setLoader(false);
 			frame.current.classList.add('on');
@@ -44,8 +45,10 @@ function Gallery() {
 		imgs.forEach((img) => {
 			img.onload = () => {
 				++counter;
+				console.log(counter);
 
-				if (counter === imgs.length - 1) {
+				//검색결과물에서 특정 사용자를 클릭하면 다시 결과값이 하나 적게 리턴되는 문제 (해결필요)
+				if (counter === imgs.length - 2) {
 					setLoader(false);
 					frame.current.classList.add('on');
 					enableEvent.current = true;
