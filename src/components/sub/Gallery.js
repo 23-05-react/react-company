@@ -4,6 +4,7 @@ import axios from 'axios';
 import { useState, useEffect, useRef } from 'react';
 
 function Gallery() {
+	const isUser = useRef(true);
 	const searchInput = useRef(null);
 	const btnSet = useRef(null);
 	const enableEvent = useRef(true);
@@ -19,7 +20,7 @@ function Gallery() {
 		const method_interest = 'flickr.interestingness.getList';
 		const method_user = 'flickr.people.getPhotos';
 		const method_search = 'flickr.photos.search';
-		const num = 50;
+		const num = 100;
 		let url = '';
 
 		if (opt.type === 'interest') url = `${baseURL}&api_key=${key}&method=${method_interest}&per_page=${num}`;
@@ -43,27 +44,16 @@ function Gallery() {
 		imgs.forEach((img) => {
 			img.onload = () => {
 				++counter;
-				console.log(counter);
 
-				//임시방편 - 전체 이미지 갯수가 하나 모잘라도 출력되게 수정
-				//문제점 - myGallery, interestGallery는 전체 이미지 카운트가 잘 되는데 특정 사용자 갤러리만 갯수가 1씩 모자라는 현상
 				if (counter === imgs.length - 1) {
 					setLoader(false);
 					frame.current.classList.add('on');
-
-					//모션중 재이벤트 방지시 모션이 끝날때까지 이벤트를 방지를 시켜도
-					//모션이 끝나는순간에도 이벤트가 많이 발생하면 특정값이 바뀌는 순간보다 이벤트가 더 빨리들어가서 오류가 발생가능
-					//해결방법 - 물리적으로 이벤트 호출을 지연시켜서 마지막에 발생한 이벤트만 동작처리 (debouncing)
-					//단시간에 많이 발생하는 이벤트시 함수 호출을 줄이는 방법
-					//debouncing: 이벤트 발생시 바로 호출하는게 아닌 일정시간 텀을 두고 마지막에 발생한 이벤트만 호출
-					//throttling: 이벤트 발생시 호출되는 함수자체를 setTimeout으로 적게 호출
 					enableEvent.current = true;
 				}
 			};
 		});
 	};
 
-	//기존 갤러리 초기화 함수
 	const resetGallery = (e) => {
 		const btns = btnSet.current.querySelectorAll('button');
 		btns.forEach((el) => el.classList.remove('on'));
@@ -83,17 +73,14 @@ function Gallery() {
 
 		//새로운 데이터로 갤러리 생성 함수 호출
 		getFlickr({ type: 'interest' });
+		isUser.current = false;
 	};
 
 	const showMine = (e) => {
-		//재이벤트, 모션중 재이벤트 방지
 		if (!enableEvent.current) return;
 		if (e.target.classList.contains('on')) return;
 
-		//기존 갤러리 초기화 함수 호출
 		resetGallery(e);
-
-		//새로운 데이터로 갤러리 생성 함수 호출
 		getFlickr({ type: 'user', user: '164021883@N04' });
 	};
 
@@ -105,6 +92,7 @@ function Gallery() {
 		resetGallery(e);
 		getFlickr({ type: 'search', tags: tag });
 		searchInput.current.value = '';
+		isUser.current = false;
 	};
 
 	useEffect(() => getFlickr({ type: 'user', user: '164021883@N04' }), []);
@@ -142,6 +130,8 @@ function Gallery() {
 										/>
 										<span
 											onClick={(e) => {
+												if (isUser.current) return;
+												isUser.current = true;
 												setLoader(true);
 												frame.current.classList.remove('on');
 												getFlickr({ type: 'user', user: e.target.innerText });
