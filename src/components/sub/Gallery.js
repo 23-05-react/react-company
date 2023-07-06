@@ -4,6 +4,8 @@ import axios from 'axios';
 import { useState, useEffect, useRef } from 'react';
 
 function Gallery() {
+	const btnMine = useRef(null);
+	const btnInterest = useRef(null);
 	const enableEvent = useRef(true);
 	const frame = useRef(null);
 	const [Items, setItems] = useState([]);
@@ -45,11 +47,9 @@ function Gallery() {
 					//모션이 끝나는순간에도 이벤트가 많이 발생하면 특정값이 바뀌는 순간보다 이벤트가 더 빨리들어가서 오류가 발생가능
 					//해결방법 - 물리적으로 이벤트 호출을 지연시켜서 마지막에 발생한 이벤트만 동작처리 (debouncing)
 					//단시간에 많이 발생하는 이벤트시 함수 호출을 줄이는 방법
-					//debouncing: 이벤트 발생히 바로 호출하는게 아닌 일정시간 텀을 두고 마지막에 발생한 이벤트만 호출
-					//throttling: 이벤트 발생시 호출되는 함수자체를 적게 호출
-					setTimeout(() => {
-						enableEvent.current = true;
-					}, 1000);
+					//debouncing: 이벤트 발생시 바로 호출하는게 아닌 일정시간 텀을 두고 마지막에 발생한 이벤트만 호출
+					//throttling: 이벤트 발생시 호출되는 함수자체를 setTimeout으로 적게 호출
+					enableEvent.current = true;
 				}
 			};
 		});
@@ -60,8 +60,12 @@ function Gallery() {
 	return (
 		<Layout name={'Gallery'}>
 			<button
-				onClick={() => {
+				ref={btnInterest}
+				onClick={(e) => {
 					if (!enableEvent.current) return;
+					if (e.target.classList.contains('on')) return;
+					btnMine.current.classList.remove('on');
+					e.target.classList.add('on');
 					enableEvent.current = false;
 					setLoader(true);
 					frame.current.classList.remove('on');
@@ -71,8 +75,13 @@ function Gallery() {
 				Interest Gallery
 			</button>
 			<button
-				onClick={() => {
+				className='on'
+				ref={btnMine}
+				onClick={(e) => {
 					if (!enableEvent.current) return;
+					if (e.target.classList.contains('on')) return;
+					btnInterest.current.classList.remove('on');
+					e.target.classList.add('on');
 					enableEvent.current = false;
 					setLoader(true);
 					frame.current.classList.remove('on');
