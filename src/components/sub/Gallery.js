@@ -30,6 +30,11 @@ function Gallery() {
 		if (result.data.photos.photo.length === 0) {
 			setLoader(false);
 			frame.current.classList.add('on');
+			const btnMine = btnSet.current.children;
+			btnMine[1].classList.add('on');
+			getFlickr({ type: 'user', user: '164021883@N04' });
+			enableEvent.current = true;
+
 			return alert('이미지 결과값이 없습니다.');
 		}
 		setItems(result.data.photos.photo);
