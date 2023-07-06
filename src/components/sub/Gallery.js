@@ -4,11 +4,13 @@ import axios from 'axios';
 import { useState, useEffect, useRef } from 'react';
 
 function Gallery() {
+	const enableEvent = useRef(true);
 	const frame = useRef(null);
 	const [Items, setItems] = useState([]);
 	const [Loader, setLoader] = useState(true);
 
 	const getFlickr = async (opt) => {
+		console.log('getFlickr');
 		let counter = 0;
 		const baseURL = 'https://www.flickr.com/services/rest/?format=json&nojsoncallback=1';
 		const key = 'ae5dbef0587895ed38171fcda4afb648';
@@ -33,9 +35,21 @@ function Gallery() {
 				++counter;
 				console.log(counter);
 
+				//임시방편 - 전체 이미지 갯수가 하나 모잘라도 출력되게 수정
+				//문제점 - myGallery, interestGallery는 전체 이미지 카운트가 잘 되는데 특정 사용자 갤러리만 갯수가 1씩 모자라는 현상
 				if (counter === imgs.length - 1) {
 					setLoader(false);
 					frame.current.classList.add('on');
+
+					//모션중 재이벤트 방지시 모션이 끝날때까지 이벤트를 방지를 시켜도
+					//모션이 끝나는순간에도 이벤트가 많이 발생하면 특정값이 바뀌는 순간보다 이벤트가 더 빨리들어가서 오류가 발생가능
+					//해결방법 - 물리적으로 이벤트 호출을 지연시켜서 마지막에 발생한 이벤트만 동작처리 (debouncing)
+					//단시간에 많이 발생하는 이벤트시 함수 호출을 줄이는 방법
+					//debouncing: 이벤트 발생히 바로 호출하는게 아닌 일정시간 텀을 두고 마지막에 발생한 이벤트만 호출
+					//throttling: 이벤트 발생시 호출되는 함수자체를 적게 호출
+					setTimeout(() => {
+						enableEvent.current = true;
+					}, 1000);
 				}
 			};
 		});
@@ -47,6 +61,8 @@ function Gallery() {
 		<Layout name={'Gallery'}>
 			<button
 				onClick={() => {
+					if (!enableEvent.current) return;
+					enableEvent.current = false;
 					setLoader(true);
 					frame.current.classList.remove('on');
 					getFlickr({ type: 'interest' });
@@ -56,6 +72,8 @@ function Gallery() {
 			</button>
 			<button
 				onClick={() => {
+					if (!enableEvent.current) return;
+					enableEvent.current = false;
 					setLoader(true);
 					frame.current.classList.remove('on');
 					getFlickr({ type: 'user', user: '164021883@N04' });
