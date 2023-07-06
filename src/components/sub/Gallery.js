@@ -22,10 +22,8 @@ function Gallery() {
 		let url = '';
 
 		if (opt.type === 'interest') url = `${baseURL}&api_key=${key}&method=${method_interest}&per_page=${num}`;
-		if (opt.type === 'search')
-			url = `${baseURL}&api_key=${key}&method=${method_search}&per_page=${num}&tags=${opt.tags}`;
-		if (opt.type === 'user')
-			url = `${baseURL}&api_key=${key}&method=${method_user}&per_page=${num}&user_id=${opt.user}`;
+		if (opt.type === 'search') url = `${baseURL}&api_key=${key}&method=${method_search}&per_page=${num}&tags=${opt.tags}`;
+		if (opt.type === 'user') url = `${baseURL}&api_key=${key}&method=${method_user}&per_page=${num}&user_id=${opt.user}`;
 
 		const result = await axios.get(url);
 		setItems(result.data.photos.photo);
@@ -64,41 +62,38 @@ function Gallery() {
 		frame.current.classList.remove('on');
 	};
 
+	const showInterest = (e) => {
+		//재이벤트, 모션중 재이벤트 방지
+		if (!enableEvent.current) return;
+		if (e.target.classList.contains('on')) return;
+
+		//기존 갤러리 초기화 함수 호출
+		resetGallery(e);
+
+		//새로운 데이터로 갤러리 생성 함수 호출
+		getFlickr({ type: 'interest' });
+	};
+
+	const showMine = (e) => {
+		//재이벤트, 모션중 재이벤트 방지
+		if (!enableEvent.current) return;
+		if (e.target.classList.contains('on')) return;
+
+		//기존 갤러리 초기화 함수 호출
+		resetGallery(e);
+
+		//새로운 데이터로 갤러리 생성 함수 호출
+		getFlickr({ type: 'user', user: '164021883@N04' });
+	};
+
 	useEffect(() => getFlickr({ type: 'user', user: '164021883@N04' }), []);
 
 	return (
 		<Layout name={'Gallery'}>
 			<div className='btnSet' ref={btnSet}>
-				<button
-					onClick={(e) => {
-						//재이벤트, 모션중 재이벤트 방지
-						if (!enableEvent.current) return;
-						if (e.target.classList.contains('on')) return;
+				<button onClick={showInterest}>Interest Gallery</button>
 
-						//기존 갤러리 초기화 함수 호출
-						resetGallery(e);
-
-						//새로운 데이터로 갤러리 생성 함수 호출
-						getFlickr({ type: 'interest' });
-					}}
-				>
-					Interest Gallery
-				</button>
-
-				<button
-					className='on'
-					onClick={(e) => {
-						//재이벤트, 모션중 재이벤트 방지
-						if (!enableEvent.current) return;
-						if (e.target.classList.contains('on')) return;
-
-						//기존 갤러리 초기화 함수 호출
-						resetGallery(e);
-
-						//새로운 데이터로 갤러리 생성 함수 호출
-						getFlickr({ type: 'user', user: '164021883@N04' });
-					}}
-				>
+				<button className='on' onClick={showMine}>
 					My Gallery
 				</button>
 			</div>
@@ -110,10 +105,7 @@ function Gallery() {
 							<article key={idx}>
 								<div className='inner'>
 									<div className='pic'>
-										<img
-											src={`https://live.staticflickr.com/${item.server}/${item.id}_${item.secret}_m.jpg`}
-											alt={item.title}
-										/>
+										<img src={`https://live.staticflickr.com/${item.server}/${item.id}_${item.secret}_m.jpg`} alt={item.title} />
 									</div>
 									<h2>{item.title}</h2>
 									<div className='profile'>
