@@ -27,6 +27,11 @@ function Gallery() {
 		if (opt.type === 'user') url = `${baseURL}&api_key=${key}&method=${method_user}&per_page=${num}&user_id=${opt.user}`;
 
 		const result = await axios.get(url);
+		if (result.data.photos.photo.length === 0) {
+			setLoader(false);
+			frame.current.classList.add('on');
+			return alert('이미지 결과값이 없습니다.');
+		}
 		setItems(result.data.photos.photo);
 
 		const imgs = frame.current.querySelectorAll('img');
