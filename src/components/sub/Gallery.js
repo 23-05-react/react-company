@@ -20,7 +20,7 @@ function Gallery() {
 		const method_interest = 'flickr.interestingness.getList';
 		const method_user = 'flickr.people.getPhotos';
 		const method_search = 'flickr.photos.search';
-		const num = 20;
+		const num = 10;
 		let url = '';
 
 		if (opt.type === 'interest') url = `${baseURL}&api_key=${key}&method=${method_interest}&per_page=${num}`;
@@ -42,12 +42,16 @@ function Gallery() {
 		setItems(result.data.photos.photo);
 
 		const imgs = frame.current.querySelectorAll('img');
+		console.log('imgDOM의 전체 갯수', imgs.length);
 		imgs.forEach((img) => {
 			img.onload = () => {
 				++counter;
 				console.log(counter);
 
 				//검색결과물에서 특정 사용자를 클릭하면 다시 결과값이 하나 적게 리턴되는 문제 (해결필요)
+				//이슈해결 - 특정 사용자 아이디로 갤러리 출력해서 counter갯수가 2가 부족한 이유는
+				//추력될 이미지돔요소중에서 이미 해당사용자의 이미지와 프로필에 이미지소스2개가 캐싱이 완료되었기때문에
+				//실제 생성된 imgDOM의 갯수는 20개이지만 2개소스이미지의 캐싱이 완료되었기 때문에 onload이벤트는 18번만 발생
 				if (counter === imgs.length - 2) {
 					setLoader(false);
 					frame.current.classList.add('on');
