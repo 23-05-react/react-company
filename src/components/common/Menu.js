@@ -1,4 +1,5 @@
 import { forwardRef, useImperativeHandle, useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const Menu = forwardRef((props, ref) => {
 	const [Open, setOpen] = useState(false);
@@ -7,13 +8,18 @@ const Menu = forwardRef((props, ref) => {
 		return { toggle: () => setOpen(!Open) };
 	});
 	return (
-		<>
+		<AnimatePresence>
 			{Open && (
-				<nav id='mobilePanel'>
+				<motion.nav
+					id='mobilePanel'
+					initial={{ opacity: 0, x: -280 }}
+					animate={{ opacity: 1, x: 0, transition: { duration: 0.5 } }}
+					exit={{ opacity: 0, x: -280, transition: { duration: 0.5 } }}
+				>
 					<h1>LOGO</h1>
-				</nav>
+				</motion.nav>
 			)}
-		</>
+		</AnimatePresence>
 	);
 });
 
