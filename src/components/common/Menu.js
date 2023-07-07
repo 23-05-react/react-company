@@ -6,7 +6,15 @@ const Menu = forwardRef((props, ref) => {
 	useImperativeHandle(ref, () => {
 		return { toggle: () => setOpen(!Open) };
 	});
-	return <nav>Menu</nav>;
+	return (
+		<>
+			{Open && (
+				<nav id='mobilePanel'>
+					<h1>LOGO</h1>
+				</nav>
+			)}
+		</>
+	);
 });
 
 export default Menu;
