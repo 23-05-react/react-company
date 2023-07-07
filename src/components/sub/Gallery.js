@@ -13,7 +13,6 @@ function Gallery() {
 	const [Loader, setLoader] = useState(true);
 
 	const getFlickr = async (opt) => {
-		console.log('getFlickr');
 		let counter = 0;
 		const baseURL = 'https://www.flickr.com/services/rest/?format=json&nojsoncallback=1';
 		const key = 'ae5dbef0587895ed38171fcda4afb648';
@@ -28,7 +27,7 @@ function Gallery() {
 		if (opt.type === 'user') url = `${baseURL}&api_key=${key}&method=${method_user}&per_page=${num}&user_id=${opt.user}`;
 
 		const result = await axios.get(url);
-		console.log(result.data.photos.photo);
+
 		if (result.data.photos.photo.length === 0) {
 			setLoader(false);
 			frame.current.classList.add('on');
@@ -42,11 +41,10 @@ function Gallery() {
 		setItems(result.data.photos.photo);
 
 		const imgs = frame.current.querySelectorAll('img');
-		console.log('imgDOM의 전체 갯수', imgs.length);
+
 		imgs.forEach((img) => {
 			img.onload = () => {
 				++counter;
-				console.log(counter);
 
 				//검색결과물에서 특정 사용자를 클릭하면 다시 결과값이 하나 적게 리턴되는 문제 (해결필요)
 				//이슈해결 - 특정 사용자 아이디로 갤러리 출력해서 counter갯수가 2가 부족한 이유는
