@@ -26,8 +26,10 @@ function Gallery() {
 		let url = '';
 
 		if (opt.type === 'interest') url = `${baseURL}&api_key=${key}&method=${method_interest}&per_page=${num}`;
-		if (opt.type === 'search') url = `${baseURL}&api_key=${key}&method=${method_search}&per_page=${num}&tags=${opt.tags}`;
-		if (opt.type === 'user') url = `${baseURL}&api_key=${key}&method=${method_user}&per_page=${num}&user_id=${opt.user}`;
+		if (opt.type === 'search')
+			url = `${baseURL}&api_key=${key}&method=${method_search}&per_page=${num}&tags=${opt.tags}`;
+		if (opt.type === 'user')
+			url = `${baseURL}&api_key=${key}&method=${method_user}&per_page=${num}&user_id=${opt.user}`;
 
 		const result = await axios.get(url);
 
@@ -117,7 +119,12 @@ function Gallery() {
 				</div>
 
 				<div className='searchBox'>
-					<input type='text' placeholder='검색어를 입력하세요.' ref={searchInput} onKeyPress={(e) => e.key === 'Enter' && showSearch(e)} />
+					<input
+						type='text'
+						placeholder='검색어를 입력하세요.'
+						ref={searchInput}
+						onKeyPress={(e) => e.key === 'Enter' && showSearch(e)}
+					/>
 					<button onClick={showSearch}>Seach</button>
 				</div>
 
@@ -130,11 +137,15 @@ function Gallery() {
 										<div
 											className='pic'
 											onClick={() => {
-												openModal.current.open();
+												openModal.current?.open();
 												setIndex(idx);
+												console.log(openModal);
 											}}
 										>
-											<img src={`https://live.staticflickr.com/${item.server}/${item.id}_${item.secret}_m.jpg`} alt={item.title} />
+											<img
+												src={`https://live.staticflickr.com/${item.server}/${item.id}_${item.secret}_m.jpg`}
+												alt={item.title}
+											/>
 										</div>
 										<h2>{item.title}</h2>
 										<div className='profile'>
@@ -165,7 +176,10 @@ function Gallery() {
 			</Layout>
 
 			<Modal ref={openModal}>
-				<img src={`https://live.staticflickr.com/${Items[Index]?.server}/${Items[Index]?.id}_${Items[Index]?.secret}_b.jpg`} alt={Items[Index]?.title} />
+				<img
+					src={`https://live.staticflickr.com/${Items[Index]?.server}/${Items[Index]?.id}_${Items[Index]?.secret}_b.jpg`}
+					alt={Items[Index]?.title}
+				/>
 			</Modal>
 		</>
 	);
