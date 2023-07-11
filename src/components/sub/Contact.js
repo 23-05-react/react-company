@@ -1,5 +1,5 @@
 import Layout from '../common/Layout';
-import { useRef, useEffect, useState } from 'react';
+import { useRef, useEffect, useState, useMemo } from 'react';
 import emailjs from '@emailjs/browser';
 
 function Contact() {
@@ -38,14 +38,16 @@ function Contact() {
 		},
 	]);
 
-	const marker = new kakao.maps.Marker({
-		position: info.current[Index].latlng,
-		image: new kakao.maps.MarkerImage(
-			info.current[Index].imgSrc,
-			info.current[Index].imgSize,
-			info.current[Index].imgPos
-		),
-	});
+	const marker = useMemo(() => {
+		return new kakao.maps.Marker({
+			position: info.current[Index].latlng,
+			image: new kakao.maps.MarkerImage(
+				info.current[Index].imgSrc,
+				info.current[Index].imgSize,
+				info.current[Index].imgPos
+			),
+		});
+	}, [Index, kakao]);
 
 	//폼메일 전송 함수
 	const sendEmail = (e) => {
@@ -83,13 +85,13 @@ function Contact() {
 
 		window.addEventListener('resize', setCenter);
 		return () => window.removeEventListener('resize', setCenter);
-	}, [Index]);
+	}, [Index, kakao, marker]);
 
 	useEffect(() => {
 		Traffic
 			? Location?.addOverlayMapTypeId(kakao.maps.MapTypeId.TRAFFIC)
 			: Location?.removeOverlayMapTypeId(kakao.maps.MapTypeId.TRAFFIC);
-	}, [Traffic]);
+	}, [Traffic, Location, kakao]);
 
 	return (
 		<Layout name={'Contact'}>
