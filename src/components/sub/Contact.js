@@ -14,7 +14,7 @@ function Contact() {
 	const [Success, setSuccess] = useState(false);
 
 	const { kakao } = window;
-	const info = [
+	const info = useRef([
 		{
 			title: '삼성역 코엑스',
 			latlng: new kakao.maps.LatLng(37.51100661425726, 127.06162026853143),
@@ -36,13 +36,16 @@ function Contact() {
 			imgSize: new kakao.maps.Size(232, 99),
 			imgPos: { offset: new kakao.maps.Point(116, 99) },
 		},
-	];
-	const option = { center: info[Index].latlng, level: 3 };
-	const imgSrc = info[Index].imgSrc;
-	const imgSize = info[Index].imgSize;
-	const imgPos = info[Index].imgPos;
-	const markerImage = new kakao.maps.MarkerImage(imgSrc, imgSize, imgPos);
-	const marker = new kakao.maps.Marker({ position: option.center, image: markerImage });
+	]);
+
+	const marker = new kakao.maps.Marker({
+		position: info.current[Index].latlng,
+		image: new kakao.maps.MarkerImage(
+			info.current[Index].imgSrc,
+			info.current[Index].imgSize,
+			info.current[Index].imgPos
+		),
+	});
 
 	//폼메일 전송 함수
 	const sendEmail = (e) => {
@@ -65,7 +68,7 @@ function Contact() {
 
 	useEffect(() => {
 		container.current.innerHTML = '';
-		const mapInstance = new kakao.maps.Map(container.current, option);
+		const mapInstance = new kakao.maps.Map(container.current, { center: info.current[Index].latlng, level: 3 });
 		marker.setMap(mapInstance);
 		mapInstance.addControl(new kakao.maps.MapTypeControl(), kakao.maps.ControlPosition.TOPRIGHT);
 		mapInstance.addControl(new kakao.maps.ZoomControl(), kakao.maps.ControlPosition.RIGHT);
@@ -75,7 +78,7 @@ function Contact() {
 		mapInstance.setZoomable(false);
 
 		const setCenter = () => {
-			mapInstance.setCenter(info[Index].latlng);
+			mapInstance.setCenter(info.current[Index].latlng);
 		};
 
 		window.addEventListener('resize', setCenter);
@@ -94,7 +97,7 @@ function Contact() {
 			<button onClick={() => setTraffic(!Traffic)}>{Traffic ? 'Traffic ON' : 'Traffic OFF'}</button>
 
 			<ul className='branch'>
-				{info.map((el, idx) => {
+				{info.current.map((el, idx) => {
 					return (
 						<li key={idx} onClick={() => setIndex(idx)} className={idx === Index ? 'on' : ''}>
 							{el.title}
