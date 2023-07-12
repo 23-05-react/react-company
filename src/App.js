@@ -16,12 +16,28 @@ import Department from './components/sub/Department';
 import Gallery from './components/sub/Gallery';
 import Member from './components/sub/Member';
 import Youtube from './components/sub/Youtube';
-
+import axios from 'axios';
+import { useDispatch } from 'react-redux';
+import { setYoutube } from './redux/action';
+import { useEffect } from 'react';
 import './scss/style.scss';
 
-//Menu컴포넌를 App에서 호출한뒤 토글 객체를 각각 메인, 서브 헤더로 전달해서 토글 메뉴 기능이 동작하도록 수정
 function App() {
+	const dispatch = useDispatch();
 	const menu = useRef(null);
+
+	const fetchYoutube = async () => {
+		const key = 'AIzaSyCF8SOz4Cchg53VOMXZe0un2AC7zEP2apU';
+		const list = 'PLHtvRFLN5v-W5bQjvyH8QTdQQhgflJ3nu';
+		const num = 10;
+		const url = `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&playlistId=${list}&key=${key}&maxResults=${num}`;
+		const result = await axios.get(url);
+		dispatch(setYoutube(result.data.items));
+	};
+
+	useEffect(() => {
+		fetchYoutube();
+	}, []);
 
 	return (
 		<>
