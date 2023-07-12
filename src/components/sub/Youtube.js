@@ -8,7 +8,6 @@ import { setYoutube } from '../../redux/action';
 function Youtube() {
 	const dispatch = useDispatch();
 	const Vids = useSelector((store) => store.youtubeReducer.youtube);
-	console.log(Vids);
 	const modal = useRef(null);
 	const [Index, setIndex] = useState(0);
 
