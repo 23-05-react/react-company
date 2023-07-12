@@ -58,14 +58,14 @@ function Gallery() {
 			}
 
 			//외부 API로 부터 데이터 fetching시간이 오래 걸리는 경우
-			//컴포넌트가 unMounted시 해당 Mouted값을 false를 변경처리
+			//컴포넌트가 unMounted시 해당 Mouted값을 false로 변경처리
 			//Mounted값이 true일때에만 fetching된 데이터를 state에 담음
 			//데이터 fetching전 컴포넌트가 언마운트되면 State에 값을 담지 않으므로 불필요한 메모리 누수가 발생하지 않음
 			Mounted && setItems(result.data.photos.photo);
 
-			const imgs = frame.current.querySelectorAll('img');
+			const imgs = frame.current?.querySelectorAll('img');
 
-			imgs.forEach((img) => {
+			imgs?.forEach((img) => {
 				img.onload = () => {
 					++counter;
 
