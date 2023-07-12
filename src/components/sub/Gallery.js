@@ -65,7 +65,10 @@ function Gallery() {
 
 			const imgs = frame.current?.querySelectorAll('img');
 
-			imgs?.forEach((img) => {
+			//만약 imgs에 받아지는 값이 없으면 밑에 반복문이 실행안되도록 return으로 강제 종료
+			if (!imgs) return;
+
+			imgs.forEach((img) => {
 				img.onload = () => {
 					++counter;
 
