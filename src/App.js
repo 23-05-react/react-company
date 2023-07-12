@@ -1,5 +1,5 @@
 import { Route, Switch } from 'react-router-dom';
-import { useRef } from 'react';
+import { useCallback, useRef } from 'react';
 
 //common
 import Footer from './components/common/Footer';
@@ -26,18 +26,18 @@ function App() {
 	const dispatch = useDispatch();
 	const menu = useRef(null);
 
-	const fetchYoutube = async () => {
+	const fetchYoutube = useCallback(async () => {
 		const key = 'AIzaSyCF8SOz4Cchg53VOMXZe0un2AC7zEP2apU';
 		const list = 'PLHtvRFLN5v-W5bQjvyH8QTdQQhgflJ3nu';
 		const num = 10;
 		const url = `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&playlistId=${list}&key=${key}&maxResults=${num}`;
 		const result = await axios.get(url);
 		dispatch(setYoutube(result.data.items));
-	};
+	}, [dispatch]);
 
 	useEffect(() => {
 		fetchYoutube();
-	}, []);
+	}, [fetchYoutube]);
 
 	return (
 		<>
