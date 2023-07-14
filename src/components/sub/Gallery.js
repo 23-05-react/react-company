@@ -30,21 +30,7 @@ function Gallery() {
 	/*
 	const getFlickr = useCallback(async (opt) => {
 		let counter = 0;
-		const baseURL = 'https://www.flickr.com/services/rest/?format=json&nojsoncallback=1';
-		const key = 'ae5dbef0587895ed38171fcda4afb648';
-		const method_interest = 'flickr.interestingness.getList';
-		const method_user = 'flickr.people.getPhotos';
-		const method_search = 'flickr.photos.search';
-		const num = 40;
-		let url = '';
-
-		if (opt.type === 'interest') url = `${baseURL}&api_key=${key}&method=${method_interest}&per_page=${num}`;
-		if (opt.type === 'search')
-			url = `${baseURL}&api_key=${key}&method=${method_search}&per_page=${num}&tags=${opt.tags}`;
-		if (opt.type === 'user')
-			url = `${baseURL}&api_key=${key}&method=${method_user}&per_page=${num}&user_id=${opt.user}`;
-
-		const result = await axios.get(url);
+		//api.js에 있는 fetch함수와 동일
 
 		if (result.data.photos.photo.length === 0) {
 			setLoader(false);
@@ -110,8 +96,10 @@ function Gallery() {
 
 	const showSearch = (e) => {
 		const tag = searchInput.current.value.trim();
+
 		if (tag === '') return alert('검색어를 입력하세요.');
 		if (!enableEvent.current) return;
+		console.log(tag);
 
 		resetGallery(e);
 		setOpt({ type: 'search', tags: tag });
@@ -125,6 +113,7 @@ function Gallery() {
 
 	useEffect(() => {
 		console.log(Items);
+		enableEvent.current = true;
 	}, [Items]);
 
 	return (
