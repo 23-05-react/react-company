@@ -1,20 +1,33 @@
 import Layout from '../common/Layout';
 import Masonry from 'react-masonry-component';
-import axios from 'axios';
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Modal from '../common/Modal';
+import { useSelector, useDispatch } from 'react-redux';
+import * as types from '../../redux/actionType';
+
+/*
+	갤러리 컴포넌트에서 전역 비동기 데이터 변경방법
+	dispatch롤 액션 객체를 보낼때 opt도 같이 전달하면 됨
+
+	각각의 showInterest, showSearch, showMine, showUser함수가 실행될때마다 내부적으로 Opt지역 스테이트 변경
+	useEffect에 Opt 스테이트값을 의존성 배열해서 dispatch로 Opt가 바뀔때마다 action객체를 전달하도록 설정
+*/
 
 function Gallery() {
+	const dispatch = useDispatch();
+	const Items = useSelector((store) => store.flickrReducer.flickr);
 	const openModal = useRef(null);
 	const isUser = useRef(true);
 	const searchInput = useRef(null);
 	const btnSet = useRef(null);
 	const enableEvent = useRef(true);
 	const frame = useRef(null);
-	const [Items, setItems] = useState([]);
+
 	const [Loader, setLoader] = useState(true);
 	const [Index, setIndex] = useState(0);
+	const [Opt, setOpt] = useState({ type: 'user', user: '164021883@N04' });
 
+	/*
 	const getFlickr = useCallback(async (opt) => {
 		let counter = 0;
 		const baseURL = 'https://www.flickr.com/services/rest/?format=json&nojsoncallback=1';
@@ -63,6 +76,7 @@ function Gallery() {
 			};
 		});
 	}, []);
+	*/
 
 	const resetGallery = (e) => {
 		const btns = btnSet.current.querySelectorAll('button');
@@ -82,7 +96,7 @@ function Gallery() {
 		resetGallery(e);
 
 		//새로운 데이터로 갤러리 생성 함수 호출
-		getFlickr({ type: 'interest' });
+		setOpt({ type: 'interest' });
 		isUser.current = false;
 	};
 
@@ -91,7 +105,7 @@ function Gallery() {
 		if (e.target.classList.contains('on')) return;
 
 		resetGallery(e);
-		getFlickr({ type: 'user', user: '164021883@N04' });
+		setOpt({ type: 'user', user: '164021883@N04' });
 	};
 
 	const showSearch = (e) => {
@@ -100,12 +114,18 @@ function Gallery() {
 		if (!enableEvent.current) return;
 
 		resetGallery(e);
-		getFlickr({ type: 'search', tags: tag });
+		setOpt({ type: 'search', tags: tag });
 		searchInput.current.value = '';
 		isUser.current = false;
 	};
 
-	useEffect(() => getFlickr({ type: 'user', user: '164021883@N04' }), [getFlickr]);
+	useEffect(() => {
+		dispatch({ type: types.FLICKR.start, opt: Opt });
+	}, [Opt, dispatch]);
+
+	useEffect(() => {
+		console.log(Items);
+	}, [Items]);
 
 	return (
 		<>
@@ -160,7 +180,7 @@ function Gallery() {
 													isUser.current = true;
 													setLoader(true);
 													frame.current.classList.remove('on');
-													getFlickr({ type: 'user', user: e.target.innerText });
+													setOpt({ type: 'user', user: e.target.innerText });
 												}}
 											>
 												{item.owner}
