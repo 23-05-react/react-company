@@ -22,6 +22,7 @@ function Gallery() {
 	const btnSet = useRef(null);
 	const enableEvent = useRef(true);
 	const frame = useRef(null);
+	const counter = useRef(0);
 
 	const [Loader, setLoader] = useState(true);
 	const [Index, setIndex] = useState(0);
@@ -113,7 +114,30 @@ function Gallery() {
 
 	useEffect(() => {
 		console.log(Items);
-		enableEvent.current = true;
+		counter.current = 0;
+		if (Items.length === 0) {
+			setLoader(false);
+			frame.current.classList.add('on');
+			const btnMine = btnSet.current.children;
+			btnMine[1].classList.add('on');
+			setOpt({ type: 'user', user: '164021883@N04' });
+			enableEvent.current = true;
+			return alert('이미지 결과값이 없습니다.');
+		}
+
+		const imgs = frame.current.querySelectorAll('img');
+
+		imgs.forEach((img) => {
+			img.onload = () => {
+				++counter.current;
+
+				if (counter.current === imgs.length - 2) {
+					setLoader(false);
+					frame.current.classList.add('on');
+					enableEvent.current = true;
+				}
+			};
+		});
 	}, [Items]);
 
 	return (
