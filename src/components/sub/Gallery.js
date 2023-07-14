@@ -23,6 +23,8 @@ function Gallery() {
 	const enableEvent = useRef(true);
 	const frame = useRef(null);
 	const counter = useRef(0);
+	//처음 마운트되었는지 확인하가 위한 정보값
+	const firstLoaded = useRef(true);
 
 	const [Loader, setLoader] = useState(true);
 	const [Index, setIndex] = useState(0);
@@ -87,7 +89,8 @@ function Gallery() {
 	useEffect(() => {
 		console.log(Items);
 		counter.current = 0;
-		if (Items.length === 0) {
+		//처음 마운트가 된 상태가 아닐때에만 Items의 결과값이 없을때 경고창 출력
+		if (Items.length === 0 && !firstLoaded.current) {
 			setLoader(false);
 			frame.current.classList.add('on');
 			const btnMine = btnSet.current.children;
@@ -96,6 +99,8 @@ function Gallery() {
 			enableEvent.current = true;
 			return alert('이미지 결과값이 없습니다.');
 		}
+		//처음 마운트이후 firstLoaded.current값을 false로 변경
+		firstLoaded.current = false;
 
 		const imgs = frame.current.querySelectorAll('img');
 
@@ -111,6 +116,8 @@ function Gallery() {
 			};
 		});
 	}, [Items]);
+
+	useEffect(() => {}, []);
 
 	return (
 		<>
