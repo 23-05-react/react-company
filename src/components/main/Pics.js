@@ -18,6 +18,18 @@ function Pics({ Scrolled, Pos }) {
 					opacity: `${Scrolled >= Pos - base ? 1 - modified / 500 : 1}`,
 				}}
 			></article>
+
+			<ul>
+				{flickr.map((pic, idx) => {
+					if (idx >= 4) return null;
+
+					return (
+						<li key={pic.id}>
+							<img src={`https://live.staticflickr.com/${pic.server}/${pic.id}_${pic.secret}_m.jpg`} alt={pic.title} />
+						</li>
+					);
+				})}
+			</ul>
 		</section>
 	);
 }
