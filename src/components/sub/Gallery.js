@@ -26,45 +26,10 @@ function Gallery() {
 
 	const [Loader, setLoader] = useState(true);
 	const [Index, setIndex] = useState(0);
+	//초기 Opt 스테이트에 내계정 정보 등록 : 해당 페이지 새로고침시 myGallery를 디폴트로 출력하기 위함
 	const [Opt, setOpt] = useState({ type: 'user', user: '164021883@N04' });
 
-	/*
-	const getFlickr = useCallback(async (opt) => {
-		let counter = 0;
-		//api.js에 있는 fetch함수와 동일
-
-		if (result.data.photos.photo.length === 0) {
-			setLoader(false);
-			frame.current.classList.add('on');
-			const btnMine = btnSet.current.children;
-			btnMine[1].classList.add('on');
-			getFlickr({ type: 'user', user: '164021883@N04' });
-			enableEvent.current = true;
-
-			return alert('이미지 결과값이 없습니다.');
-		}
-		setItems(result.data.photos.photo);
-
-		const imgs = frame.current.querySelectorAll('img');
-
-		imgs.forEach((img) => {
-			img.onload = () => {
-				++counter;
-
-				//검색결과물에서 특정 사용자를 클릭하면 다시 결과값이 하나 적게 리턴되는 문제 (해결필요)
-				//이슈해결 - 특정 사용자 아이디로 갤러리 출력해서 counter갯수가 2가 부족한 이유는
-				//추력될 이미지돔요소중에서 이미 해당사용자의 이미지와 프로필에 이미지소스2개가 캐싱이 완료되었기때문에
-				//실제 생성된 imgDOM의 갯수는 20개이지만 2개소스이미지의 캐싱이 완료되었기 때문에 onload이벤트는 18번만 발생
-				if (counter === imgs.length - 2) {
-					setLoader(false);
-					frame.current.classList.add('on');
-					enableEvent.current = true;
-				}
-			};
-		});
-	}, []);
-	*/
-
+	//이벤트 발생시 각각 interest, mine, search, userGallery호출할때마가 기존 사라지게 하고 로딩바보이게 하는 공통 초기화 함수
 	const resetGallery = (e) => {
 		const btns = btnSet.current.querySelectorAll('button');
 		btns.forEach((el) => el.classList.remove('on'));
@@ -74,6 +39,7 @@ function Gallery() {
 		frame.current.classList.remove('on');
 	};
 
+	//인터레스트 방식 갤러리 호출함수
 	const showInterest = (e) => {
 		//재이벤트, 모션중 재이벤트 방지
 		if (!enableEvent.current) return;
@@ -83,10 +49,12 @@ function Gallery() {
 		resetGallery(e);
 
 		//새로운 데이터로 갤러리 생성 함수 호출
+		//action객체에 추가로 전달해야 될 옵션을 Opt 스테이트로 변경처리
 		setOpt({ type: 'interest' });
 		isUser.current = false;
 	};
 
+	//마이갤러리 호출함수
 	const showMine = (e) => {
 		if (!enableEvent.current) return;
 		if (e.target.classList.contains('on')) return;
@@ -95,6 +63,7 @@ function Gallery() {
 		setOpt({ type: 'user', user: '164021883@N04' });
 	};
 
+	//검색 갤러리 호출함수
 	const showSearch = (e) => {
 		const tag = searchInput.current.value.trim();
 
@@ -108,10 +77,13 @@ function Gallery() {
 		isUser.current = false;
 	};
 
+	//액션에 추가로 전달되야될 Opt값이 변경될때마다 새롭게 액션객체를 생성해서 리듀서에 전달
 	useEffect(() => {
 		dispatch({ type: types.FLICKR.start, opt: Opt });
 	}, [Opt, dispatch]);
 
+	//전역 스테이트 정보값이 변경이 될때마다 해당 구문 실행
+	//다시 이벤트 기능 활성화, 이미지로딩이벤트 발생해서 이미지소스 출력 완료시 갤러리 보이게 처리, 버튼도 활성화
 	useEffect(() => {
 		console.log(Items);
 		counter.current = 0;
