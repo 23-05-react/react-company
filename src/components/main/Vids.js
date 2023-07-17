@@ -8,7 +8,7 @@ function Vids() {
 	console.log(Vids);
 	return (
 		<section id='vids' className='myScroll'>
-			<Swiper>
+			<Swiper loop={true} spaceBetween={50}>
 				{Vids.map((vid, idx) => {
 					if (idx >= 5) return null;
 
@@ -18,6 +18,7 @@ function Vids() {
 								<div className='pic'>
 									<img src={vid.snippet.thumbnails.standard.url} alt={vid.snippet.title} />
 								</div>
+								<h2>{vid.snippet.title}</h2>
 							</div>
 						</SwiperSlide>
 					);
