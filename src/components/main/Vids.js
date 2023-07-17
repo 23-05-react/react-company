@@ -1,6 +1,7 @@
 import { memo } from 'react';
 import { useSelector } from 'react-redux';
 import { Swiper, SwiperSlide } from 'swiper/react';
+import { Autoplay } from 'swiper';
 import 'swiper/css';
 
 function Vids() {
@@ -8,7 +9,14 @@ function Vids() {
 	console.log(Vids);
 	return (
 		<section id='vids' className='myScroll'>
-			<Swiper loop={true} spaceBetween={50}>
+			<Swiper
+				modules={[Autoplay]}
+				loop={true}
+				spaceBetween={50}
+				slidesPerView={3}
+				centeredSlides={true}
+				autoplay={{ delay: 2000, disableOnInteraction: true }}
+			>
 				{Vids.map((vid, idx) => {
 					if (idx >= 5) return null;
 
