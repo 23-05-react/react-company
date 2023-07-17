@@ -21,6 +21,7 @@ import './scss/style.scss';
 
 import { fetchYoutube } from './redux/youtubeSlice';
 import { fetchDepartment } from './redux/departmentSlice';
+import { fetchFlickr } from './redux/flickrSlice';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 
@@ -31,6 +32,7 @@ function App() {
 	useEffect(() => {
 		dispatch(fetchYoutube());
 		dispatch(fetchDepartment());
+		dispatch(fetchFlickr({ type: 'user', user: '164021883@N04' }));
 	}, [dispatch]);
 
 	return (
@@ -42,7 +44,7 @@ function App() {
 
 			<Route path='/department' component={Department} />
 			<Route path='/community' component={Community} />
-			<Route path='/gallery' component={Gallery} />
+			{/* <Route path='/gallery' component={Gallery} /> */}
 			<Route path='/youtube' component={Youtube} />
 			<Route path='/contact' component={Contact} />
 			<Route path='/member' component={Member} />

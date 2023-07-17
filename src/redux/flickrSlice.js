@@ -9,11 +9,9 @@ export const fetchFlickr = createAsyncThunk('flickr/requestFlickr', async (opt) 
 	const method_search = 'flickr.photos.search';
 	const num = 40;
 	let url = '';
-
 	if (opt.type === 'interest') url = `${baseURL}&api_key=${key}&method=${method_interest}&per_page=${num}`;
 	if (opt.type === 'search') url = `${baseURL}&api_key=${key}&method=${method_search}&per_page=${num}&tags=${opt.tags}`;
 	if (opt.type === 'user') url = `${baseURL}&api_key=${key}&method=${method_user}&per_page=${num}&user_id=${opt.user}`;
-
 	const response = await axios.get(url);
 	return response.data.photos.photo;
 });
