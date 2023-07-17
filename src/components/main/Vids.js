@@ -5,6 +5,17 @@ import { Autoplay, Pagination, Navigation } from 'swiper';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPause, faPlay } from '@fortawesome/free-solid-svg-icons';
+
+function BtnRolling() {
+	return (
+		<nav className='controls'>
+			<FontAwesomeIcon icon={faPlay} />
+			<FontAwesomeIcon icon={faPause} />
+		</nav>
+	);
+}
 
 function Vids() {
 	const Vids = useSelector((store) => store.youtube.data);
@@ -27,6 +38,7 @@ function Vids() {
 					},
 				}}
 			>
+				<BtnRolling />
 				{Vids.map((vid, idx) => {
 					if (idx >= 5) return null;
 
