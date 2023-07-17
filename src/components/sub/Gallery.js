@@ -1,20 +1,23 @@
 import Layout from '../common/Layout';
 import Masonry from 'react-masonry-component';
-import axios from 'axios';
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { fetchFlickr } from '../../redux/flickrSlice';
 import Modal from '../common/Modal';
 
 function Gallery() {
+	const dispatch = useDispatch();
 	const openModal = useRef(null);
 	const isUser = useRef(true);
 	const searchInput = useRef(null);
 	const btnSet = useRef(null);
 	const enableEvent = useRef(true);
 	const frame = useRef(null);
-	const [Items, setItems] = useState([]);
 	const [Loader, setLoader] = useState(true);
 	const [Index, setIndex] = useState(0);
+	const Items = useSelector((store) => store.flickr.data);
 
+	/*
 	const getFlickr = useCallback(async (opt) => {
 		let counter = 0;
 		const baseURL = 'https://www.flickr.com/services/rest/?format=json&nojsoncallback=1';
@@ -63,6 +66,7 @@ function Gallery() {
 			};
 		});
 	}, []);
+	*/
 
 	const resetGallery = (e) => {
 		const btns = btnSet.current.querySelectorAll('button');
@@ -74,15 +78,11 @@ function Gallery() {
 	};
 
 	const showInterest = (e) => {
-		//재이벤트, 모션중 재이벤트 방지
 		if (!enableEvent.current) return;
 		if (e.target.classList.contains('on')) return;
 
-		//기존 갤러리 초기화 함수 호출
 		resetGallery(e);
-
-		//새로운 데이터로 갤러리 생성 함수 호출
-		getFlickr({ type: 'interest' });
+		dispatch(fetchFlickr({ type: 'interest' }));
 		isUser.current = false;
 	};
 
@@ -91,7 +91,7 @@ function Gallery() {
 		if (e.target.classList.contains('on')) return;
 
 		resetGallery(e);
-		getFlickr({ type: 'user', user: '164021883@N04' });
+		dispatch(fetchFlickr({ type: 'user', user: '164021883@N04' }));
 	};
 
 	const showSearch = (e) => {
@@ -100,12 +100,14 @@ function Gallery() {
 		if (!enableEvent.current) return;
 
 		resetGallery(e);
-		getFlickr({ type: 'search', tags: tag });
+		dispatch(fetchFlickr({ type: 'search', tags: tag }));
 		searchInput.current.value = '';
 		isUser.current = false;
 	};
 
-	useEffect(() => getFlickr({ type: 'user', user: '164021883@N04' }), [getFlickr]);
+	useEffect(() => {
+		console.log(Items);
+	}, [Items]);
 
 	return (
 		<>
@@ -160,7 +162,7 @@ function Gallery() {
 													isUser.current = true;
 													setLoader(true);
 													frame.current.classList.remove('on');
-													getFlickr({ type: 'user', user: e.target.innerText });
+													dispatch(fetchFlickr({ type: 'user', user: e.target.innerText }));
 												}}
 											>
 												{item.owner}
