@@ -12,6 +12,9 @@
 <body>
   <noscript>You need to enable JavaScript to run this app.</noscript>
   <div id="root"></div>
+  <script>
+    //url = https://23-05-react.github.io/react-company/
+  </script>
 </body>
 
 </html>
@@ -19,8 +22,9 @@
 <!-- 
   이미지, 영상을 리액트 컴포넌트가 마운트되기 전 미리 캐싱처리하는 작업흐름
   1. 배열에 캐싱할 이미지와 영상의 URL을 각각 담아줌
-  2. index.html이 서버쪽으로 호출되자마자 배열에 담긴 url을 반복돌면서 동적으로 DOM생성
+  2. index.html이 서버쪽에서 호출되자마자 배열에 담긴 url을 반복돌면서 동적으로 DOM생성
   3. DOM이 index.html에 생성되는 동안 마스크 화면을 대신 보여줌
   4. 모든, 영상 이미지가 캐싱완료되면 마스크를 강제 제거하고 동적으로 생성된 요소도 제거
   5. 그 사이 React컴포넌트들이 Real DOM으로 변환되면서 화면에 출력
+  6. github 사이트에서 redux-toolkit브랜치를 default로 지정한 뒤 npm run deploy로 빌드 및 배포
 -->
