@@ -59,6 +59,7 @@
 
     createDOM();
 
+    //배열로부터 동적으로 img, video생성함수
     function createDOM() {
       imgs.forEach(src => {
         tags += `<img src = ${src} />`
@@ -67,6 +68,26 @@
         tags += `<video src=${src}></video>`
       })
       defaults.innerHTML = tags;
+    }
+
+    //이미지소스 로딩완료 검사함수
+    function loadImg() {
+      return new Promise((res, rej) => {
+        let countImg = 0;
+        const imgDOM = defaults.querySelectorAll('img');
+
+        imgDOM.forEach(img => {
+          //video.onloadeddata
+          img.onload = () => {
+            countImg++;
+            console.log('img loaded..', countImg);
+
+            if (countImg === lenImg) {
+              res(true);
+            }
+          }
+        })
+      })
     }
   </script>
 </body>
