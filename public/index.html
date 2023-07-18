@@ -77,12 +77,30 @@
         const imgDOM = defaults.querySelectorAll('img');
 
         imgDOM.forEach(img => {
-          //video.onloadeddata
           img.onload = () => {
             countImg++;
             console.log('img loaded..', countImg);
 
             if (countImg === lenImg) {
+              res(true);
+            }
+          }
+        })
+      })
+    }
+
+    //영상소스 로딩완료 검사함수
+    function loadVid() {
+      return new Promise((res, rej) => {
+        let countVid = 0;
+        const vidDOM = defaults.querySelectorAll('video');
+
+        vidDOM.forEach(vid => {
+          vid.onloadeddata = () => {
+            countVid++;
+            console.log('vid loaded..', countVid);
+
+            if (countVid === lenVid) {
               res(true);
             }
           }
