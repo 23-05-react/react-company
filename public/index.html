@@ -7,13 +7,36 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>React App</title>
   <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=c75b0a78b27a0bf45cdccb41774779fd"></script>
+  <style>
+    .default {
+      position: absolute;
+      top: -99999px;
+    }
+
+    .mask {
+      width: 100%;
+      height: 100vh;
+      background: #111;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 10;
+      opacity: 1;
+      transition: opacity 2s;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font: 20px/1 'arial';
+      color: #fff;
+    }
+  </style>
 </head>
 
 <body>
   <noscript>You need to enable JavaScript to run this app.</noscript>
   <div id="root"></div>
   <div class="defaults"></div>
-  <div class="mask"></div>
+  <div class="mask">Loading...</div>
 
   <script>
     //url = https://23-05-react.github.io/react-company
