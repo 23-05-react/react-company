@@ -12,8 +12,39 @@
 <body>
   <noscript>You need to enable JavaScript to run this app.</noscript>
   <div id="root"></div>
+  <div class="defaults"></div>
+  <div class="mask"></div>
+
   <script>
-    //url = https://23-05-react.github.io/react-company/
+    //url = https://23-05-react.github.io/react-company
+    const defaults = document.querySelector('.defaults');
+    const mask = document.querySelector('.mask');
+    let tags = '';
+    const baseURL = 'https://23-05-react.github.io/react-company';
+    const imgs = [
+      baseURL + '/img/Community.jpg',
+      baseURL + '/img/Department.jpg',
+      baseURL + '/img/Gallery.jpg',
+      baseURL + '/img/Location.jpg',
+      baseURL + '/img/Youtube.jpg',
+      baseURL + '/img/Members.jpg',
+    ];
+    const vids = [baseURL + '/img/vid.mp4'];
+
+    const lenImg = imgs.length;
+    const lenVid = vids.length;
+
+    createDOM();
+
+    function createDOM() {
+      imgs.forEach(src => {
+        tags += `<img src = ${src} />`
+      })
+      vids.forEach(src => {
+        tags += `<video src=${src}></video>`
+      })
+      defaults.innerHTML = tags;
+    }
   </script>
 </body>
 
