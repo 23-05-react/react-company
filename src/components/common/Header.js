@@ -2,9 +2,11 @@ import { faBars } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Link, NavLink } from 'react-router-dom';
 import { memo } from 'react';
+import { toggle } from '../../redux/menuSlice';
+import { useDispatch } from 'react-redux';
 
-function Header({ type, menu }) {
-	console.log('header');
+function Header({ type }) {
+	const dispatch = useDispatch();
 	const active = 'on';
 	return (
 		<>
@@ -46,12 +48,7 @@ function Header({ type, menu }) {
 					</li>
 				</ul>
 
-				<FontAwesomeIcon
-					icon={faBars}
-					onClick={() => {
-						menu.current.toggle();
-					}}
-				/>
+				<FontAwesomeIcon icon={faBars} onClick={() => dispatch(toggle())} />
 			</header>
 		</>
 	);
