@@ -29,6 +29,10 @@
       font: 20px/1 'arial';
       color: #fff;
     }
+
+    .mask.off {
+      opacity: 0;
+    }
   </style>
 </head>
 
@@ -107,6 +111,21 @@
         })
       })
     }
+
+    //promise.all vs promise.race
+    //promise.all : 인수로 전달받은 모든 promise가 완료되야지 동기화처리
+    //promise.race : 인수로 전달받은 promise중 하나라도 완료되는것이 바로 동기화처리
+
+    //promise.all()로 loadImg, loadVid함수가 모두 프로미스 객체를 반환할때까지 기다린후 동기화 처리
+    Promise.all([loadImg(), loadVid()]).then(result => {
+      console.log(result);
+      mask.classList.add('off');
+
+      setTimeout(() => {
+        mask.remove();
+        defaults.remove();
+      }, 2000)
+    })
   </script>
 </body>
 
