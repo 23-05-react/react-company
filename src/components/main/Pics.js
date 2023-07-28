@@ -1,10 +1,13 @@
-import { useSelector } from 'react-redux';
+import { useFlickrQuery } from '../../hooks/useFlickerQuery';
 
 function Pics({ Scrolled, Pos }) {
-	useSelector((store) => console.log(store));
+	const { data, isSuccess } = useFlickrQuery({ type: 'user', user: '164021883@N04' });
 	const currentPos = Scrolled - Pos;
 	const base = window.innerHeight / 2;
 	const modified = currentPos + base;
+
+	console.log(data);
+
 	return (
 		<section id='pics' className='myScroll'>
 			<h1 style={{ transform: `translateX(${currentPos}px)` }}>FLICKR</h1>
