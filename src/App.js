@@ -23,8 +23,11 @@ import { fetchDepartment } from './redux/departmentSlice';
 import { fetchFlickr } from './redux/flickrSlice';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
 function App() {
+	const queryClient = new QueryClient();
 	const dispatch = useDispatch();
 
 	useEffect(() => {
@@ -34,12 +37,11 @@ function App() {
 	}, [dispatch]);
 
 	return (
-		<>
+		<QueryClientProvider client={queryClient}>
 			<Switch>
 				<Route exact path='/' render={() => <Main />} />
 				<Route path='/' render={() => <Header type={'sub'} />} />
 			</Switch>
-
 			<Route path='/department' component={Department} />
 			<Route path='/community' component={Community} />
 			<Route path='/gallery' component={Gallery} />
@@ -48,7 +50,8 @@ function App() {
 			<Route path='/member' component={Member} />
 			<Footer />
 			<Menu />
-		</>
+			<ReactQueryDevtools />
+		</QueryClientProvider>
 	);
 }
 
