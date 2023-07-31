@@ -6,8 +6,8 @@ import { useGlobalData } from '../../hooks/useGlobalContext';
 
 function Header({ type }) {
 	const { MenuOpen, setMenuOpen } = useGlobalData();
-
 	const active = 'on';
+
 	return (
 		<>
 			<header className={type}>

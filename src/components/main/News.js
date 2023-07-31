@@ -1,7 +1,6 @@
 import { useState, useEffect, memo } from 'react';
 
 function News() {
-	console.log('news');
 	const dummy = [
 		{ title: 'Hello6', content: 'Here comes description in detail.' },
 		{ title: 'Hello5', content: 'Here comes description in detail.' },
