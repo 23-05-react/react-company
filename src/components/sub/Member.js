@@ -5,7 +5,6 @@ import { useDebounce } from '../../hooks/useDebounce';
 
 function Member() {
 	const selectEl = useRef(null);
-
 	const initVal = useRef({
 		userid: '',
 		pwd1: '',
@@ -23,6 +22,7 @@ function Member() {
 	const [Val, setVal] = useState(initVal.current);
 	const [Err, setErr] = useState({});
 	const [Submit, setSubmit] = useState(false);
+	const [Mounted, setMounted] = useState(true);
 
 	const DebouncedVal = useDebounce(Val);
 
@@ -45,12 +45,12 @@ function Member() {
 	const showErr = useCallback(() => {
 		console.log('showErr');
 		setSubmit(false);
-		setErr(check(DebouncedVal));
-	}, [DebouncedVal]);
+		Mounted && setErr(check(DebouncedVal));
+	}, [DebouncedVal, Mounted]);
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
-		setErr(check(Val));
+		Mounted && setErr(check(Val));
 		setSubmit(true);
 	};
 
@@ -93,6 +93,7 @@ function Member() {
 			alert('모든 인증을 통과했습니다.');
 			history.push('/');
 		}
+		return () => setMounted(false);
 	}, [Err, Submit, history]);
 
 	useEffect(() => {
