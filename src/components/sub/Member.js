@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom';
 
 function Member() {
 	const selectEl = useRef(null);
-	//initVal값을 굳이 useMemo로 메모이제이션 하지 않더라도 useRef로 담아놓으면 해당 값은 컴포넌트가 재랜더링되더라도 값을 기억
+
 	const initVal = useRef({
 		userid: '',
 		pwd1: '',
@@ -18,23 +18,18 @@ function Member() {
 	const radioGroup = useRef(null);
 	const checkGroup = useRef(null);
 	const history = useHistory();
-	//initVal의 값은 변경될 필요가 없는 초기값이긴 하나 컴포넌트가 재호출 될때마다 계속해서 초기화되는 값이므로
-	//해당 값을 초기화하지 않고 메모이제이션할 필요가 있음 (선택사항)
 
 	const [Val, setVal] = useState(initVal.current);
 	const [Err, setErr] = useState({});
 	const [Submit, setSubmit] = useState(false);
 
 	const handleChange = (e) => {
-		//현재 입력하고 있는 input요소의 name,value값을 비구조화할당으로 뽑아서 출력
 		const { name, value } = e.target;
-		//기존 초기 Val State값을 deep copy해서 현재 입력하고 있는 항목의 name값과 value값으로 기존 State를 덮어쓰기 해서 변경 (불변성 유지)
 		setVal({ ...Val, [name]: value });
 	};
 
 	const handleRadio = (e) => {
 		const { name, value } = e.target;
-
 		setVal({ ...Val, [name]: value });
 	};
 
@@ -42,7 +37,6 @@ function Member() {
 		const { name } = e.target;
 		const inputs = e.target.parentElement.querySelectorAll('input');
 
-		//모든 체크박스를 반복돌면서 하나라도 체크되어 있는게 있으면 true값 반환
 		let checkArr = [];
 		inputs.forEach((el) => {
 			if (el.checked) checkArr.push(el.value);
@@ -57,10 +51,6 @@ function Member() {
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
-		console.log('현재 스테이트값', Val);
-		//check가 반환하는 인증 메세지가 있으면 해당 메세지를 화면에 출력하고 전송중지
-		//그렇지 않으면 인증 성공
-		console.log(check(Val));
 		setErr(check(Val));
 		setSubmit(true);
 	};
@@ -142,7 +132,7 @@ function Member() {
 										id='userid'
 										placeholder='아이디를 입력하세요'
 										onChange={handleChange}
-										value={Val.userid}
+										value={Val.userid || ''}
 									/>
 									<br />
 									{Err.userid && <p>{Err.userid}</p>}
@@ -162,7 +152,7 @@ function Member() {
 										id='pwd1'
 										placeholder='비밀번호를 입력하세요'
 										onChange={handleChange}
-										value={Val.pwd1}
+										value={Val.pwd1 || ''}
 									/>
 									<br />
 									{Err.pwd1 && <p>{Err.pwd1}</p>}
@@ -181,7 +171,7 @@ function Member() {
 										id='pwd2'
 										placeholder='비밀번호를 재입력하세요'
 										onChange={handleChange}
-										value={Val.pwd2}
+										value={Val.pwd2 || ''}
 									/>
 									<br />
 									{Err.pwd2 && <p>{Err.pwd2}</p>}
@@ -200,7 +190,7 @@ function Member() {
 										id='email'
 										placeholder='이메일주소를 입력하세요'
 										onChange={handleChange}
-										value={Val.email}
+										value={Val.email || ''}
 									/>
 									<br />
 									{Err.email && <p>{Err.email}</p>}
@@ -266,7 +256,7 @@ function Member() {
 										id='comments'
 										cols='30'
 										rows='3'
-										value={Val.comments}
+										value={Val.comments || ''}
 										onChange={handleChange}
 										placeholder='남기는 말을 입력하세요.'
 									></textarea>
