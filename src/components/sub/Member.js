@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import Layout from '../common/Layout';
 import { useHistory } from 'react-router-dom';
+import { useDebounce } from '../../hooks/useDebounce';
 
 function Member() {
 	const selectEl = useRef(null);
@@ -23,6 +24,8 @@ function Member() {
 	const [Err, setErr] = useState({});
 	const [Submit, setSubmit] = useState(false);
 
+	const DebouncedVal = useDebounce(Val);
+
 	const handleChange = (e) => {
 		const { name, value } = e.target;
 		setVal({ ...Val, [name]: value });
@@ -38,6 +41,11 @@ function Member() {
 		});
 		setVal({ ...Val, [name]: checkArr });
 	};
+
+	const showErr = useCallback(() => {
+		console.log('showErr');
+		setErr(check(DebouncedVal));
+	}, [DebouncedVal]);
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
@@ -87,8 +95,8 @@ function Member() {
 	}, [Err, Submit, history]);
 
 	useEffect(() => {
-		console.log(Val);
-	}, [Val]);
+		showErr();
+	}, [DebouncedVal, showErr]);
 
 	return (
 		<Layout name={'Member'} bg={'Members.jpg'}>
