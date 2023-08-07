@@ -28,11 +28,6 @@ function Member() {
 		setVal({ ...Val, [name]: value });
 	};
 
-	const handleRadio = (e) => {
-		const { name, value } = e.target;
-		setVal({ ...Val, [name]: value });
-	};
-
 	const handleCheck = (e) => {
 		const { name } = e.target;
 		const inputs = e.target.parentElement.querySelectorAll('input');
@@ -42,11 +37,6 @@ function Member() {
 			if (el.checked) checkArr.push(el.value);
 		});
 		setVal({ ...Val, [name]: checkArr });
-	};
-
-	const handleSelect = (e) => {
-		const { name, value } = e.target;
-		setVal({ ...Val, [name]: value });
 	};
 
 	const handleSubmit = (e) => {
@@ -132,7 +122,7 @@ function Member() {
 										id='userid'
 										placeholder='아이디를 입력하세요'
 										onChange={handleChange}
-										value={Val.userid || ''}
+										value={Val.userid}
 									/>
 									<br />
 									{Err.userid && <p>{Err.userid}</p>}
@@ -152,7 +142,7 @@ function Member() {
 										id='pwd1'
 										placeholder='비밀번호를 입력하세요'
 										onChange={handleChange}
-										value={Val.pwd1 || ''}
+										value={Val.pwd1}
 									/>
 									<br />
 									{Err.pwd1 && <p>{Err.pwd1}</p>}
@@ -171,7 +161,7 @@ function Member() {
 										id='pwd2'
 										placeholder='비밀번호를 재입력하세요'
 										onChange={handleChange}
-										value={Val.pwd2 || ''}
+										value={Val.pwd2}
 									/>
 									<br />
 									{Err.pwd2 && <p>{Err.pwd2}</p>}
@@ -190,7 +180,7 @@ function Member() {
 										id='email'
 										placeholder='이메일주소를 입력하세요'
 										onChange={handleChange}
-										value={Val.email || ''}
+										value={Val.email}
 									/>
 									<br />
 									{Err.email && <p>{Err.email}</p>}
@@ -202,10 +192,10 @@ function Member() {
 								<th>GENDER</th>
 								<td ref={radioGroup}>
 									<label htmlFor='male'>Male</label>
-									<input type='radio' name='gender' value='male' id='mail' onChange={handleRadio} />
+									<input type='radio' name='gender' value='male' id='mail' onChange={handleChange} />
 
 									<label htmlFor='female'>FeMale</label>
-									<input type='radio' name='gender' value='female' id='female' onChange={handleRadio} />
+									<input type='radio' name='gender' value='female' id='female' onChange={handleChange} />
 									<br />
 									{Err.gender && <p>{Err.gender}</p>}
 								</td>
@@ -234,7 +224,7 @@ function Member() {
 									<label htmlFor='edu'>EDUCATION</label>
 								</th>
 								<td>
-									<select name='edu' id='edu' onChange={handleSelect} ref={selectEl}>
+									<select name='edu' id='edu' onChange={handleChange} ref={selectEl}>
 										<option value=''>최종학력을 선택하세요</option>
 										<option value='elementary-school'>초등학교 졸업</option>
 										<option value='middle-school'>중학교 졸업</option>
@@ -256,7 +246,7 @@ function Member() {
 										id='comments'
 										cols='30'
 										rows='3'
-										value={Val.comments || ''}
+										value={Val.comments}
 										onChange={handleChange}
 										placeholder='남기는 말을 입력하세요.'
 									></textarea>
