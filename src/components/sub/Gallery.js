@@ -8,6 +8,7 @@ function Gallery() {
 	/*
 		hooks은 다른 hook이나 일반 함수안쪽에서 호출 불가 : useEffect안쪽이나 이벤트 핸들러 안쪽에서 호출불가, 컴포넌트 안쪽에서만 호출
 	*/
+	const [Mounted, setMounted] = useState(true);
 	const [Opt, setOpt] = useState({ type: 'user', user: '164021883@N04' });
 	const { data: Items, isSuccess } = useFlickrQuery(Opt);
 	const openModal = useRef(null);
@@ -18,6 +19,7 @@ function Gallery() {
 	const frame = useRef(null);
 	const [Loader, setLoader] = useState(true);
 	const [Index, setIndex] = useState(0);
+
 	const counter = useRef(0);
 	const firstLoaded = useRef(true);
 
@@ -59,9 +61,8 @@ function Gallery() {
 	};
 
 	useEffect(() => {
-		console.log(Items);
 		counter.current = 0;
-		if (isSuccess && Items.length === 0 && !firstLoaded.current) {
+		if (Mounted && isSuccess && Items.length === 0 && !firstLoaded.current) {
 			setLoader(false);
 			frame.current.classList.add('on');
 			const btnMine = btnSet.current.children;
@@ -84,7 +85,9 @@ function Gallery() {
 				}
 			};
 		});
-	}, [Items]);
+
+		return () => setMounted(false);
+	}, [Items, isSuccess]);
 
 	return (
 		<>
