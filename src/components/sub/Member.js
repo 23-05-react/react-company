@@ -45,12 +45,12 @@ function Member() {
 	const showErr = useCallback(() => {
 		console.log('showErr');
 		setSubmit(false);
-		Mounted && setErr(check(DebouncedVal));
-	}, [DebouncedVal, Mounted]);
+		setErr(check(DebouncedVal));
+	}, [DebouncedVal]);
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
-		Mounted && setErr(check(Val));
+		setErr(check(Val));
 		setSubmit(true);
 	};
 
